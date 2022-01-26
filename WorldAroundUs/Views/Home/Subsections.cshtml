@@ -1,0 +1,15 @@
+﻿@model List<WorldAroundUs.ViewModels.SubsectionViewModel>
+
+<div class="row">
+    @foreach (var item in @Model)
+    {
+        <div class="col-4 mb-4">
+            <div class="card">
+                <img width="100px" height="100px" class="card-img"  src="@item.ImageUrl" alt="@item.Title image">
+                <div class="card-body">
+                    <h4 class="card-title">@item.Title</h4>
+                </div>
+            </div>
+        </div>
+    }
+</div>

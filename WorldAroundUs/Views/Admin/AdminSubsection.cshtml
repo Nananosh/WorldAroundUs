@@ -1,0 +1,118 @@
+﻿<div id="grid"></div>
+    <script>
+        $(document).ready(function() {
+            $("#grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("GetAllSubsections", "Admin")",
+                        update: {
+                            url: "@Url.Action("UpdateSubsection","Admin")",
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        create:{
+                                                                            url: "@Url.Action("CreateSubsection", "Admin")",
+                                                                            dataType: "json",
+                                                                            type: "POST"
+                                                                        },
+                        destroy: {
+                            url: "@Url.Action("RemoveSubsection","Admin")",
+                            dataType: "json",
+                            type: "DELETE"
+                        }
+                    },
+                    schema: {
+                        model: {
+                            id: "Id",
+                            fields: {
+                                Id: { editable: false, from: "id", type: "number" },
+                                Section: { from: "section",nullable: true, validation: {required: true} }, 
+                                SectionId: {from: "sectionId", type: "number",nullable: true, validation: {required: true} },
+                                Title: { from: "title", validation: {required: true} },
+                                Description: {from: "description",nullable: true, validation: {required: true} }, 
+                                ImageUrl: { from: "imageUrl", validation: {required: true} },
+                                VideoUrl: {from: "videoUrl", validation: {required: true} }
+                            }
+                        }
+                    },
+                    pageSize: 20,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                height: 550,
+                editable: {
+                    mode: "popup",
+                    window: {
+                        scrollable: false,
+                        resizable: false,
+                    }
+                },
+                toolbar: [
+                                    {name: "create"},
+                                    {name: "excel"}
+                                ],
+                // filterable: true,
+                // sortable: true,
+                pageable: true,
+                columns: [
+                    {
+                        field:"Id",
+                        filterable: false
+                    },
+                    {
+                        field: "Section.title",
+                        title: "Тема",
+                        editor: sectionEditor,
+                        template: function(dataItem) {
+                            if (dataItem.Section == null)
+                                return '';
+                            else
+                                return dataItem.Section.title;
+                        }
+                    },  
+                   {
+                       field: "Title",
+                       title: "Заголовок"
+                   },
+                    {
+                        field: "Description",
+                        title: "Описание"
+                    }, 
+                    {
+                        field: "ImageUrl",
+                        title: "Ссылка на картинку"
+                    },
+                    {
+                        field: "VideoUrl",
+                        title: "Ссылка на видео"  
+                    },
+                    {
+                        command: "edit"
+                    },
+                    {
+                        command: "destroy"
+                    }
+                ]
+            });
+        });
+        
+        function sectionEditor(container, options) {
+            $('<input required name="SectionId">')
+                .appendTo(container)
+                .kendoDropDownList({
+                    dataTextField: "title",
+                    dataValueField: "id",
+                    height: 500,
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@Url.Action("GetAllSections", "Admin")",
+                                dataType: "json",
+                                cache: false
+                            }
+                        }
+                    }
+                });
+        }
+    </script>

@@ -1,0 +1,73 @@
+﻿<div id="grid"></div>
+<script>
+    $("#grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("GetAllSections", "Admin")",
+                        update: {
+                                                    url: "@Url.Action("UpdateSection","Admin")",
+                                                    dataType: "json",
+                                                    type: "POST"
+                                                },
+                                                create:{
+                                                    url: "@Url.Action("CreateSection", "Admin")",
+                                                    dataType: "json",
+                                                    type: "POST"
+                                                },
+                        destroy: {
+                            url: "@Url.Action("RemoveSection", "Admin")",
+                            dataType: "json",
+                            type: "DELETE"
+                        }
+                    },
+                    schema: {
+                        model: {
+                            id: "Id",
+                            fields: {
+                                Id: {from: "id", type: "number", editable: false},
+                                Title: { from: "title"},
+                                ImageUrl: { from: "imageUrl" }
+                            }
+                        }
+                    },
+                    pageSize: 20,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                height: 550,
+                editable: "popup",
+                toolbar: [
+                    {name: "create"},
+                    {name: "excel"}
+                ],
+                excel: {
+                    fileName: "Sections.xlsx",
+                    filterable: true,
+                    allPages: true
+                },
+                // filterable: true,
+                // sortable: true,
+                pageable: true,
+                columns: [
+                    {
+                        field:"Id",
+                        filterable: false
+                    },
+                    {
+                        field: "Title",
+                        title: "Название"
+                    },
+                    {
+                        field: "ImageUrl",
+                        title: "Ссылка на картинку"
+                    },
+                    {
+                        command: "edit"  
+                    },
+                    {
+                        command: "destroy"
+                    }
+                ]
+            });
+</script>

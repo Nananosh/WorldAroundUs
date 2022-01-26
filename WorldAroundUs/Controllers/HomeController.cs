@@ -11,18 +11,27 @@ namespace WorldAroundUs.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ISectionService sectionService;
+        
+        public HomeController(ISectionService sectionService)
         {
-            _logger = logger;
+            this.sectionService = sectionService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var allSections = sectionService.GetAllSections();
+            
+            return View(allSections);
         }
 
+        public async Task<IActionResult> Subsections(int id)
+        {
+            var subSection = await sectionService.GetSubsectionBySectionId(id);
+
+            return View(subSection);
+        }
+        
         public IActionResult Privacy()
         {
             return View();
