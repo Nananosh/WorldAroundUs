@@ -27,7 +27,7 @@
                             fields: {
                                 Id: { editable: false, from: "id", type: "number" },
                                 Section: { from: "section",nullable: true, validation: {required: true} }, 
-                                SectionId: {from: "sectionId", type: "number",nullable: true, validation: {required: true} },
+                                SectionId: {from: "sectionId", type: "number",nullable: false, validation: {required: true} },
                                 Title: { from: "title", validation: {required: true} },
                                 Description: {from: "description",nullable: true, validation: {required: true} }, 
                                 ImageUrl: { from: "imageUrl", validation: {required: true} },

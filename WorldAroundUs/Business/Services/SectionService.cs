@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -87,14 +88,14 @@ namespace WorldAroundUs.Services
                 db.SaveChanges();
             }
 
-            var updatedSubsection = db.Sections.FirstOrDefault(x => x.Id == updateSubsection.Id);
+            var updatedSubsection = db.Subsections.Include(x => x.Section).FirstOrDefault(x => x.Id == updateSubsection.Id);
 
             return mapper.Map<SubsectionViewModel>(updatedSubsection);
         }
 
         public IEnumerable<SubsectionViewModel> GetAllSubsections()
         {
-            var subsections = db.Subsections.Include(x => x.Section);
+            var subsections = db.Subsections.Include(x => x.Section).ToList();
 
             return mapper.Map<IEnumerable<SubsectionViewModel>>(subsections);
         }
@@ -114,13 +115,14 @@ namespace WorldAroundUs.Services
         
         public SubsectionViewModel CreateSubsection(SubsectionViewModel model)
         {
+            var addSubsection = mapper.Map<Subsection>(model);
             if (model != null)
             {
-                db.Subsections.Add(mapper.Map<Subsection>(model));
+                db.Subsections.Add(addSubsection);
                 db.SaveChanges();
             }
 
-            var addedSubsection = db.Subsections.FirstOrDefault(x => x.Id == model.Id);
+            var addedSubsection = db.Subsections.Include(x => x.Section).FirstOrDefault(x => x.Id == addSubsection.Id);
 
             return mapper.Map<SubsectionViewModel>(addedSubsection);
         }
