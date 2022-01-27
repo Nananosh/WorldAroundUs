@@ -1,14 +1,11 @@
 ﻿@model List<WorldAroundUs.ViewModels.SectionViewModel>
-<div style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgb(169, 218, 214) 100%), url(../../back.jpg) no-repeat; height: 800px; width: 100%; background-size: cover;">
-    <div class="row d-flex align-items-center">
-        <div class="col-lg-12 row d-flex align-items-center justify-content-center">
-            <div class="h2">Электронная энциклопедия</div>
-        </div>
-        <div class="col-lg-12 row d-flex align-items-center justify-content-center">
-            <div class="h3">
-                Изучаем окружающий мир<br>
-                вокруг нас, вместе!
-            </div>
+<div class="row" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgb(169, 218, 214) 100%), url(../../back.jpg) no-repeat; height: 900px; width: 100%; background-size: cover; margin: 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-center mt-5">
+        <div>
+            <div class="h1 d-flex justify-content-center">Электронная энциклопедия</div>
+            <br/>
+            <div class="h3 d-flex justify-content-center">Изучаем окружающий мир</div>
+            <div class="h3 d-flex justify-content-center">вокруг нас, вместе!</div>
         </div>
     </div>
 </div>
@@ -17,10 +14,9 @@
         @foreach (var item in @Model)
         {
             <div class="col-4 mb-4">
-                <div class="card">
+                <div class="card" style="border-radius: 50px;">
                     <div class="card-body">
-                        <img class="rounded mx-auto d-block" src="@item.ImageUrl" alt="@item.Title image" style="object-fit: cover; width: 250px; height: 200px">
-
+                        <img class="mx-auto d-block" src="@item.ImageUrl" alt="@item.Title image" style="object-fit: cover; width: 250px; height: 200px; border-radius: 40px;">
                         <a asp-action="Subsections" asp-controller="Home" asp-route-id="@item.Id" style="text-decoration: none; color: black;">
                             <h4 class="card-title d-flex justify-content-center mt-2">@item.Title</h4>
                         </a>
