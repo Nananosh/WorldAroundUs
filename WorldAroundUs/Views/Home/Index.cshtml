@@ -14,9 +14,13 @@
         @foreach (var item in @Model)
         {
             <div class="col-4 mb-4">
-                <div class="card" style="border-radius: 50px;">
+                <div class="card radios-img">
                     <div class="card-body">
-                        <img class="mx-auto d-block" src="@item.ImageUrl" alt="@item.Title image" style="object-fit: cover; width: 250px; height: 200px; border-radius: 40px;">
+                        <div class="d-flex justify-content-center">
+                            <span class="radios-img">
+                                <img class="mx-auto d-block rounded mx-auto d-block" src="@item.ImageUrl" alt="@item.Title image" style="width:100%;">
+                            </span>
+                        </div>
                         <a asp-action="Subsections" asp-controller="Home" asp-route-id="@item.Id" style="text-decoration: none; color: black;">
                             <h4 class="card-title d-flex justify-content-center mt-2">@item.Title</h4>
                         </a>
