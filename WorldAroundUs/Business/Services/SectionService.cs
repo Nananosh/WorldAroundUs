@@ -35,7 +35,7 @@ namespace WorldAroundUs.Services
 
         public async Task<List<SubsectionViewModel>> GetSubsectionBySectionId(int id)
         {
-            var subsection =await db.Subsections.Where(s => s.SectionId == id).ToListAsync();
+            var subsection =await db.Subsections.Include(x => x.Section).Where(s => s.SectionId == id).ToListAsync();
 
             return mapper.Map<List<SubsectionViewModel>>(subsection);
         }

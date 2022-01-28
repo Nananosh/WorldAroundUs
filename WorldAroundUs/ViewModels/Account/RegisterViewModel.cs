@@ -24,23 +24,6 @@ namespace WorldAroundUs.ViewModels.Account
         [DataType(DataType.Password)]
         [Display(Name = "Повторите пароль")]
         public string PasswordConfirm { get; set; }
-        
-        [Required]
-        [Display(Name = "Имя")]
-        public string Name { get; set; }
-        
-        [Required]
-        [Display(Name = "Фамилия")]
-        public string Surname { get; set; }
-        
-        [Required]
-        [Display(Name = "Отчество")]
-        public string Lastname { get; set; }
-        
-        
-        [Required]
-        [Display(Name = "Дата рождения")]
-        public DateTime DateBirth { get; set; }
-        
+
     }
 }
