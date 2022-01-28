@@ -30,7 +30,18 @@ namespace WorldAroundUs.Controllers
             var subSection = await sectionService.GetSubsectionBySectionId(id);
             ViewBag.Theme = theme;
 
+            if (subSection == null) return RedirectToAction("Index");
+            
             return View(subSection);
+        }
+        
+        public async Task<IActionResult> Themes(int id)
+        {
+            var themes = await sectionService.GetThemesBySubsectionId(id);
+
+            if (themes == null) return RedirectToAction("Index");
+            
+            return View(themes);
         }
         
         public IActionResult Privacy()

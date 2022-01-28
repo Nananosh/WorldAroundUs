@@ -59,6 +59,16 @@ namespace WorldAroundUs.Services
             db.Subsections.Remove(subsection);
             db.SaveChanges();
         }
+        
+        public void RemoveTheme(ThemeViewModel model)
+        {
+            var theme = db.Themes.FirstOrDefault(s => s.Id == model.Id);
+
+            if (theme == null) return;
+            
+            db.Themes.Remove(theme);
+            db.SaveChanges();
+        }
 
         public SectionViewModel UpdateSection(SectionViewModel model)
         {
@@ -82,9 +92,12 @@ namespace WorldAroundUs.Services
             {
                 updateSubsection.Title = model.Title;
                 updateSubsection.SectionId = model.SectionId;
-                updateSubsection.Description = model.Description;
                 updateSubsection.ImageUrl = model.ImageUrl;
                 updateSubsection.VideoUrl = model.VideoUrl;
+                updateSubsection.Age = model.Age;
+                updateSubsection.Continent = model.Continent;
+                updateSubsection.Height = model.Height;
+                updateSubsection.Weight = model.Weight;
                 db.SaveChanges();
             }
 
@@ -92,12 +105,39 @@ namespace WorldAroundUs.Services
 
             return mapper.Map<SubsectionViewModel>(updatedSubsection);
         }
+        
+        public ThemeViewModel UpdateTheme(ThemeViewModel model)
+        {
+            var updateTheme = db.Themes.FirstOrDefault(x => x.Id == model.Id);
+            if (updateTheme != null)
+            {
+                updateTheme.Name = model.Name;
+                updateTheme.SubsectionId = model.SubsectionId;
+                updateTheme.ImageUrl = model.ImageUrl;
+                updateTheme.VideoUrl = model.VideoUrl;
+                updateTheme.SoundUrl = model.SoundUrl;
+                updateTheme.Text = model.Text;
+                db.SaveChanges();
+            }
+
+            var updatedTheme = db.Subsections
+                .Include(x => x.Section).FirstOrDefault(x => x.Id == updateTheme.Id);
+
+            return mapper.Map<ThemeViewModel>(updatedTheme);
+        }
 
         public IEnumerable<SubsectionViewModel> GetAllSubsections()
         {
             var subsections = db.Subsections.Include(x => x.Section).ToList();
 
             return mapper.Map<IEnumerable<SubsectionViewModel>>(subsections);
+        }
+        
+        public IEnumerable<ThemeViewModel> GetAllThemes()
+       {
+          var themes = db.Themes.Include(x => x.Subsection).ToList();
+
+          return mapper.Map<IEnumerable<ThemeViewModel>>(themes);
         }
         
         public SectionViewModel CreateSection(SectionViewModel model)
@@ -125,6 +165,34 @@ namespace WorldAroundUs.Services
             var addedSubsection = db.Subsections.Include(x => x.Section).FirstOrDefault(x => x.Id == addSubsection.Id);
 
             return mapper.Map<SubsectionViewModel>(addedSubsection);
+        }
+        
+        public ThemeViewModel CreateTheme(ThemeViewModel model)
+        {
+            var addTheme = mapper.Map<Theme>(model);
+            if (model != null)
+            {
+                db.Themes.Add(addTheme);
+                db.SaveChanges();
+            }
+
+            var addedTheme = db.Themes.Include(x => x.Subsection).FirstOrDefault(x => x.Id == addTheme.Id);
+
+            return mapper.Map<ThemeViewModel>(addedTheme);
+        }
+
+        public async Task<ThemeViewModel> GetThemeBySubsectionId(int id)
+        {
+            var theme = await db.Themes.Include(x => x.Subsection).FirstOrDefaultAsync(x => x.SubsectionId == id);
+            
+            return mapper.Map<ThemeViewModel>(theme);
+        }
+        
+        public async Task<List<ThemeViewModel>> GetThemesBySubsectionId(int id)
+        {
+            var themes = await db.Themes.Include(x => x.Subsection).Where(x => x.SubsectionId == id).ToListAsync();
+            
+            return mapper.Map<List<ThemeViewModel>>(themes);
         }
 
     }

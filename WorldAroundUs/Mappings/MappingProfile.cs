@@ -10,6 +10,7 @@ namespace WorldAroundUs.Mappings
         {
             CreateMap<SectionViewModel, Section>().ReverseMap();
             CreateMap<SubsectionViewModel, Subsection>().ReverseMap();
+            CreateMap<ThemeViewModel, Theme>().ReverseMap();
         }
     }
 }
