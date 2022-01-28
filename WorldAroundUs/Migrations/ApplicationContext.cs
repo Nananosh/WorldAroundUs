@@ -13,5 +13,6 @@ namespace WorldAroundUs.Migrations
         
         public DbSet<Section> Sections { get; set; }
         public DbSet<Subsection> Subsections { get; set; }
+        public DbSet<Theme> Themes { get; set; }
     }
 }

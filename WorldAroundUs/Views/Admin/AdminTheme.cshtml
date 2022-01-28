@@ -6,19 +6,19 @@
             $("#grid").kendoGrid({
                 dataSource: {
                     transport: {
-                        read: "@Url.Action("GetAllSubsections", "Admin")",
+                        read: "@Url.Action("GetAllThemes", "Admin")",
                         update: {
-                            url: "@Url.Action("UpdateSubsection","Admin")",
+                            url: "@Url.Action("UpdateTheme","Admin")",
                             dataType: "json",
                             type: "POST"
                         },
                         create:{
-                                                                            url: "@Url.Action("CreateSubsection", "Admin")",
-                                                                            dataType: "json",
-                                                                            type: "POST"
-                                                                        },
+                            url: "@Url.Action("CreateTheme", "Admin")",
+                            dataType: "json",
+                            type: "POST"
+                        },
                         destroy: {
-                            url: "@Url.Action("RemoveSubsection","Admin")",
+                            url: "@Url.Action("RemoveTheme","Admin")",
                             dataType: "json",
                             type: "DELETE"
                         }
@@ -29,15 +29,13 @@
                             id: "Id",
                             fields: {
                                 Id: { editable: false, from: "id", type: "number" },
-                                Section: { from: "section",nullable: true, validation: {required: true} }, 
-                                SectionId: {from: "sectionId", type: "number",nullable: false, validation: {required: true} },
-                                Title: { from: "title", validation: {required: true} },
-                                Continent: {from: "continent",nullable: true, validation: {required: true} }, 
-                                ImageUrl: { from: "imageUrl", validation: {required: true} },
-                                Height: { from: "height", validation: {required: true} },
-                                Weight: { from: "weight", validation: {required: true} },
-                                Age: { from: "age", validation: {required: true} },
-                                VideoUrl: {from: "videoUrl", validation: {required: true} }
+                                Subsection: { from: "subsection",nullable: true, validation: {required: true} }, 
+                                SubsectionId: {from: "subsectionId", type: "number",nullable: false, validation: {required: true} },
+                                Name: { from: "name", validation: {required: false} },
+                                Text: {from: "text", validation: {required: false} }, 
+                                ImageUrl: { from: "imageUrl", validation: {required: false} },
+                                SoundUrl: { from: "soundUrl", validation: {required: false} },
+                                VideoUrl: {from: "videoUrl", validation: {required: false} }
                             }
                         }
                     },
@@ -55,9 +53,13 @@
                     }
                 },
                 toolbar: [
-                                    {name: "create"},
-                                    {name: "excel"}
-                                ],
+                    {
+                        name: "create"
+                    },
+                    {
+                        name: "excel"
+                    }
+               ],
                 // filterable: true,
                 // sortable: true,
                 pageable: true,
@@ -67,35 +69,27 @@
                         filterable: false
                     },
                     {
-                        field: "Section.title",
-                        title: "Тема",
-                        editor: sectionEditor,
+                        field: "Subsection.title",
+                        title: "ПодТема",
+                        editor: subSectionEditor,
                         template: function(dataItem) {
-                            if (dataItem.Section == null)
+                            if (dataItem.Subsection == null)
                                 return '';
                             else
-                                return dataItem.Section.title;
+                                return dataItem.Subsection.title;
                         }
                     },  
                    {
-                       field: "Title",
-                       title: "Заголовок"
+                       field: "Name",
+                       title: "Имя"
                    },
                     {
-                        field: "Continent",
-                        title: "Континент"
+                        field: "Text",
+                        title: "Текст"
                     },
                     {
-                        field: "Height",
-                        title: "Рост"
-                    }, 
-                    {
-                        field: "Weight",
-                        title: "Вес"
-                    },
-                    {
-                        field: "Age",
-                        title: "Возраст"
+                        field: "SoundUrl",
+                        title: "Ссылка на звук"
                     }, 
                     {
                         field: "ImageUrl",
@@ -115,8 +109,8 @@
             });
         });
         
-        function sectionEditor(container, options) {
-            $('<input required name="SectionId">')
+        function subSectionEditor(container, options) {
+            $('<input required name="SubsectionId">')
                 .appendTo(container)
                 .kendoDropDownList({
                     dataTextField: "title",
@@ -125,7 +119,7 @@
                     dataSource: {
                         transport: {
                             read: {
-                                url: "@Url.Action("GetAllSections", "Admin")",
+                                url: "@Url.Action("GetAllSubsections", "Admin")",
                                 dataType: "json",
                                 cache: false
                             }

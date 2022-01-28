@@ -21,6 +21,11 @@ namespace WorldAroundUs.Controllers
         {
             return View();
         }
+        
+        public IActionResult AdminTheme()
+        {
+            return View();
+        }
 
         public JsonResult GetAllSections()
         {
@@ -29,12 +34,28 @@ namespace WorldAroundUs.Controllers
             return Json(sections);
         }
         
+        public JsonResult GetAllThemes()
+        {
+            var themes = sectionService.GetAllThemes();
+
+            return Json(themes);
+        }
+        
+        
         [HttpPost]
         public JsonResult UpdateSection(SectionViewModel model)
         {
             var sections = sectionService.UpdateSection(model);
 
             return Json(sections);
+        }
+        
+        [HttpPost]
+        public JsonResult UpdateTheme(ThemeViewModel model)
+        {
+            var theme = sectionService.UpdateTheme(model);
+
+            return Json(theme);
         }
         
         [HttpPost]
@@ -61,6 +82,14 @@ namespace WorldAroundUs.Controllers
             return Json(subsection);
         }
         
+        [HttpPost]
+        public JsonResult CreateTheme(ThemeViewModel model)
+        {
+            var theme = sectionService.CreateTheme(model);
+
+            return Json(theme);
+        }
+        
         [HttpDelete]
         public void RemoveSection(SectionViewModel model)
         {
@@ -71,6 +100,12 @@ namespace WorldAroundUs.Controllers
         public void RemoveSubsection(SubsectionViewModel model)
         {
             sectionService.RemoveSubsection(model);
+        }
+        
+        [HttpDelete]
+        public void RemoveTheme(ThemeViewModel model)
+        {
+            sectionService.RemoveTheme(model);
         }
 
         public JsonResult GetAllSubsections()
