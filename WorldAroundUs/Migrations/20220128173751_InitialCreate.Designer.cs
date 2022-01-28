@@ -10,8 +10,8 @@ using WorldAroundUs.Migrations;
 namespace WorldAroundUs.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220126072715_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20220128173751_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -177,7 +177,13 @@ namespace WorldAroundUs.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Age")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Continent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Height")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageUrl")
@@ -192,11 +198,46 @@ namespace WorldAroundUs.Migrations
                     b.Property<string>("VideoUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Weight")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SectionId");
 
                     b.ToTable("Subsections");
+                });
+
+            modelBuilder.Entity("WorldAroundUs.Models.Theme", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SoundUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SubsectionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubsectionId");
+
+                    b.ToTable("Themes");
                 });
 
             modelBuilder.Entity("WorldAroundUs.Models.User", b =>
@@ -327,6 +368,17 @@ namespace WorldAroundUs.Migrations
                         .IsRequired();
 
                     b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("WorldAroundUs.Models.Theme", b =>
+                {
+                    b.HasOne("WorldAroundUs.Models.Subsection", "Subsection")
+                        .WithMany()
+                        .HasForeignKey("SubsectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Subsection");
                 });
 
             modelBuilder.Entity("WorldAroundUs.Models.Section", b =>

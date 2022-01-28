@@ -12,6 +12,11 @@ namespace WorldAroundUs.Controllers
             this.sectionService = sectionService;
         }
         
+        public IActionResult AdminPanel()
+        {
+            return View();
+        }
+        
         public IActionResult AdminSection()
         {
             return View();
