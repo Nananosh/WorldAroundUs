@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WorldAroundUs.Business.Interfaces;
 using WorldAroundUs.Mappings;
 using WorldAroundUs.Migrations;
 using WorldAroundUs.Models;
@@ -30,6 +31,7 @@ namespace WorldAroundUs
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ISectionService, SectionService>();
+            services.AddTransient<ISeedDatabaseService, SeedDatabaseService>();
             
             services.AddAutoMapper(typeof(MappingProfile));
 
@@ -74,6 +76,7 @@ namespace WorldAroundUs
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

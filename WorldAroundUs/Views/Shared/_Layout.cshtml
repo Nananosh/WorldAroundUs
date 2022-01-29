@@ -50,6 +50,10 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-route-id="@User.Claims.ElementAt(0).Value">@User.Claims.ElementAt(1).Value</a>
                                 <div class="dropdown-divider"></div>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-action="AdminPanel" asp-controller="Admin" class="dropdown-item">Админка</a>
+                                }
                                 <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Выход</a>
                             </div>
                         </li>
@@ -71,6 +75,16 @@
 <main role="main">
     @RenderBody()
 </main>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <script>
+let avatar = document.getElementById('avatar');
+$.get('@Url.Action("GetUserImage", "Account", new {id = User.Claims.ElementAt(0).Value})', function(data, status){
+    avatar.src = data;
+});
+    </script>
+}
 
 <footer class="footer text-muted" style="background-color: #63C0B5;">
     <div class="container p-2">
