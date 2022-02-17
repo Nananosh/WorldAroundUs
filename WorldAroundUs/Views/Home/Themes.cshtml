@@ -11,17 +11,9 @@
             <img src="@Model[0].Subsection.ImageUrl" class="responsive" alt=""/>
         </div>
         <div class="col-lg-6">
-            <div class="d-flex flex-row align-items-baseline">
-                <div class="h5">Континент: </div> <a class="ml-1">@Model[0].Subsection.Continent</a>
-            </div>
-            <div class="mt-4 d-flex flex-row align-items-baseline">
-                <div class="h5">Рост: </div> <a class="ml-1">@Model[0].Subsection.Height</a>
-            </div>
-            <div class="mt-4 d-flex flex-row align-items-baseline">
-                <div class="h5">Вес: </div> <a class="ml-1">@Model[0].Subsection.Weight</a>
-            </div>
-            <div class="mt-4 d-flex flex-row align-items-baseline">
-                <div class="h5">Возраст: </div> <a class="ml-1">@Model[0].Subsection.Age</a>
+            <div>
+                <div class="h5 d-flex justify-content-center">Информация: </div>
+                <a class="ml-1">@Model[0].Subsection.Text</a>
             </div>
         </div>
     </div>

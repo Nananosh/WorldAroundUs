@@ -32,11 +32,8 @@
                                 Section: { from: "section",nullable: true, validation: {required: true} }, 
                                 SectionId: {from: "sectionId", type: "number",nullable: false, validation: {required: true} },
                                 Title: { from: "title", validation: {required: true} },
-                                Continent: {from: "continent",nullable: true, validation: {required: true} }, 
+                                Text: {from: "text",nullable: true, validation: {required: true} }, 
                                 ImageUrl: { from: "imageUrl", validation: {required: true} },
-                                Height: { from: "height", validation: {required: true} },
-                                Weight: { from: "weight", validation: {required: true} },
-                                Age: { from: "age", validation: {required: true} },
                                 VideoUrl: {from: "videoUrl", validation: {required: true} }
                             }
                         }
@@ -82,20 +79,8 @@
                        title: "Заголовок"
                    },
                     {
-                        field: "Continent",
-                        title: "Континент"
-                    },
-                    {
-                        field: "Height",
-                        title: "Рост"
-                    }, 
-                    {
-                        field: "Weight",
-                        title: "Вес"
-                    },
-                    {
-                        field: "Age",
-                        title: "Возраст"
+                        field: "Text",
+                        title: "Информация"
                     }, 
                     {
                         field: "ImageUrl",

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WorldAroundUs.Migrations;
 
 namespace WorldAroundUs.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220217184028_AddedTest")]
+    partial class AddedTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,14 +231,17 @@ namespace WorldAroundUs.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("ResponseHistories");
                 });
@@ -295,15 +300,10 @@ namespace WorldAroundUs.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ThemeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ThemeId");
 
                     b.ToTable("Tests");
                 });
@@ -321,14 +321,17 @@ namespace WorldAroundUs.Migrations
                     b.Property<int>("TestId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("TestId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("TestResults");
                 });
@@ -524,7 +527,7 @@ namespace WorldAroundUs.Migrations
 
                     b.HasOne("WorldAroundUs.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Question");
 
@@ -542,17 +545,6 @@ namespace WorldAroundUs.Migrations
                     b.Navigation("Section");
                 });
 
-            modelBuilder.Entity("WorldAroundUs.Models.Test", b =>
-                {
-                    b.HasOne("WorldAroundUs.Models.Theme", "Theme")
-                        .WithMany("Tests")
-                        .HasForeignKey("ThemeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Theme");
-                });
-
             modelBuilder.Entity("WorldAroundUs.Models.TestResult", b =>
                 {
                     b.HasOne("WorldAroundUs.Models.Test", "Test")
@@ -563,7 +555,7 @@ namespace WorldAroundUs.Migrations
 
                     b.HasOne("WorldAroundUs.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Test");
 
@@ -606,11 +598,6 @@ namespace WorldAroundUs.Migrations
                     b.Navigation("Questions");
 
                     b.Navigation("TestResults");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.Theme", b =>
-                {
-                    b.Navigation("Tests");
                 });
 #pragma warning restore 612, 618
         }

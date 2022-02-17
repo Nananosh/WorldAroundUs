@@ -8,8 +8,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WorldAroundUs.Migrations;
-using WorldAroundUs.ViewModels;
 using WorldAroundUs.Models;
+using WorldAroundUs.ViewModels;
+
 
 namespace WorldAroundUs.Services
 {
@@ -94,10 +95,7 @@ namespace WorldAroundUs.Services
                 updateSubsection.SectionId = model.SectionId;
                 updateSubsection.ImageUrl = model.ImageUrl;
                 updateSubsection.VideoUrl = model.VideoUrl;
-                updateSubsection.Age = model.Age;
-                updateSubsection.Continent = model.Continent;
-                updateSubsection.Height = model.Height;
-                updateSubsection.Weight = model.Weight;
+                updateSubsection.Text = model.Text;
                 db.SaveChanges();
             }
 

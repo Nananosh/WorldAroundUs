@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WorldAroundUs.Migrations;
 
 namespace WorldAroundUs.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220217180919_EditSubsection")]
+    partial class EditSubsection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,97 +152,6 @@ namespace WorldAroundUs.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WorldAroundUs.Models.AnswerOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AnswerOptions");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.Question", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AnswerOptionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TestId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TestId");
-
-                    b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.QuestionAnswerOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AnswerOptionId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsCorrectly")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnswerOptionId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("QuestionAnswerOptions");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.ResponseHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ResponseHistories");
-                });
-
             modelBuilder.Entity("WorldAroundUs.Models.Section", b =>
                 {
                     b.Property<int>("Id")
@@ -286,51 +197,6 @@ namespace WorldAroundUs.Migrations
                     b.HasIndex("SectionId");
 
                     b.ToTable("Subsections");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.Test", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ThemeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ThemeId");
-
-                    b.ToTable("Tests");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.TestResult", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Points")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TestId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TestId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("TestResults");
                 });
 
             modelBuilder.Entity("WorldAroundUs.Models.Theme", b =>
@@ -484,53 +350,6 @@ namespace WorldAroundUs.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WorldAroundUs.Models.Question", b =>
-                {
-                    b.HasOne("WorldAroundUs.Models.Test", "Test")
-                        .WithMany("Questions")
-                        .HasForeignKey("TestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Test");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.QuestionAnswerOption", b =>
-                {
-                    b.HasOne("WorldAroundUs.Models.AnswerOption", "AnswerOption")
-                        .WithMany("Question")
-                        .HasForeignKey("AnswerOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WorldAroundUs.Models.Question", "Question")
-                        .WithMany("AnswerOption")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AnswerOption");
-
-                    b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.ResponseHistory", b =>
-                {
-                    b.HasOne("WorldAroundUs.Models.QuestionAnswerOption", "Question")
-                        .WithMany("ResponseHistories")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WorldAroundUs.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WorldAroundUs.Models.Subsection", b =>
                 {
                     b.HasOne("WorldAroundUs.Models.Section", "Section")
@@ -540,34 +359,6 @@ namespace WorldAroundUs.Migrations
                         .IsRequired();
 
                     b.Navigation("Section");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.Test", b =>
-                {
-                    b.HasOne("WorldAroundUs.Models.Theme", "Theme")
-                        .WithMany("Tests")
-                        .HasForeignKey("ThemeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Theme");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.TestResult", b =>
-                {
-                    b.HasOne("WorldAroundUs.Models.Test", "Test")
-                        .WithMany("TestResults")
-                        .HasForeignKey("TestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WorldAroundUs.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Test");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WorldAroundUs.Models.Theme", b =>
@@ -581,36 +372,9 @@ namespace WorldAroundUs.Migrations
                     b.Navigation("Subsection");
                 });
 
-            modelBuilder.Entity("WorldAroundUs.Models.AnswerOption", b =>
-                {
-                    b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.Question", b =>
-                {
-                    b.Navigation("AnswerOption");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.QuestionAnswerOption", b =>
-                {
-                    b.Navigation("ResponseHistories");
-                });
-
             modelBuilder.Entity("WorldAroundUs.Models.Section", b =>
                 {
                     b.Navigation("Subsections");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.Test", b =>
-                {
-                    b.Navigation("Questions");
-
-                    b.Navigation("TestResults");
-                });
-
-            modelBuilder.Entity("WorldAroundUs.Models.Theme", b =>
-                {
-                    b.Navigation("Tests");
                 });
 #pragma warning restore 612, 618
         }
