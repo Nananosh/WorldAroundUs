@@ -11,6 +11,12 @@ namespace WorldAroundUs.Mappings
             CreateMap<SectionViewModel, Section>().ReverseMap();
             CreateMap<SubsectionViewModel, Subsection>().ReverseMap();
             CreateMap<ThemeViewModel, Theme>().ReverseMap();
+            CreateMap<AnswerOptionViewModel, AnswerOption>().ReverseMap();
+            CreateMap<QuestionAnswerOptionViewModel, QuestionAnswerOption>().ReverseMap();
+            CreateMap<ResponseHistoryViewModel, ResponseHistory>().ReverseMap();
+            CreateMap<QuestionAnswerOption, Question>().ReverseMap();
+            CreateMap<TestResultViewModel, TestResult>().ReverseMap();
+            CreateMap<TestViewModel, TestViewModel>().ReverseMap();
         }
     }
 }
