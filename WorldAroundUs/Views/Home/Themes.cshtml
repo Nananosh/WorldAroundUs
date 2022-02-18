@@ -13,12 +13,13 @@
         <div class="col-lg-6">
             <div>
                 <div class="h5 d-flex justify-content-center">Информация: </div>
-                <a class="ml-1">@Model[0].Subsection.Text</a>
+                <a class="ml-1">@Html.DisplayFor(x => x.GetEnumerator().Current.Text)</a>
             </div>
         </div>
     </div>
     @foreach (var item in @Model)
     {
+        <a asp-action="Test" asp-route-id="@item.Id"></a>
         <div class="row mt-3 d-flex justify-content-center">
             @if (!string.IsNullOrEmpty(item.Name))
             {

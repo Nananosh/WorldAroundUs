@@ -103,6 +103,21 @@ namespace WorldAroundUs.Services
 
             return mapper.Map<SubsectionViewModel>(updatedSubsection);
         }
+
+        public TestViewModel GetTestByThemeId(int id)
+        {
+            var testByTheme = db.Tests.FirstOrDefault(x => x.ThemeId == id);
+
+            return mapper.Map<TestViewModel>(testByTheme);
+        }
+
+        public QuestionViewModel GetFreeQuestionByTestId(int id, string userId)
+        {
+            var question = db.QuestionAnswerOptions.FirstOrDefault(x => !db.ResponseHistories
+                    .Any(y => (y.QuestionId == x.Id && y.UserId == userId) && x.Question.Test.Id == id));
+
+            return mapper.Map<QuestionAnswerOptionViewModel>(question);
+        }
         
         public ThemeViewModel UpdateTheme(ThemeViewModel model)
         {

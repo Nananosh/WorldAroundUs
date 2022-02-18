@@ -9,6 +9,5 @@ namespace WorldAroundUs.Models
         public Test Test { get; set; }
         public int TestId { get; set; }
         public List<QuestionAnswerOption> AnswerOption { get; set; }
-        public int AnswerOptionId { get; set; }
     }
 }

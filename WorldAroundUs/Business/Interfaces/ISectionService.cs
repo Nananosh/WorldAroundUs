@@ -19,6 +19,8 @@ namespace WorldAroundUs
         SectionViewModel CreateSection(SectionViewModel model);
         SubsectionViewModel CreateSubsection(SubsectionViewModel model);
         ThemeViewModel CreateTheme(ThemeViewModel model);
+        TestViewModel GetTestByThemeId(int id);
+        QuestionViewModel GetFreeQuestionByTestId(int id, string userId);
         IEnumerable<SubsectionViewModel> GetAllSubsections();
         IEnumerable<ThemeViewModel> GetAllThemes();
         List<SectionViewModel> GetAllSections();
