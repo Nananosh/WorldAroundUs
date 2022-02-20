@@ -14,9 +14,9 @@ namespace WorldAroundUs.Mappings
             CreateMap<AnswerOptionViewModel, AnswerOption>().ReverseMap();
             CreateMap<QuestionAnswerOptionViewModel, QuestionAnswerOption>().ReverseMap();
             CreateMap<ResponseHistoryViewModel, ResponseHistory>().ReverseMap();
-            CreateMap<QuestionAnswerOption, Question>().ReverseMap();
+            CreateMap<QuestionViewModel, Question>().ReverseMap();
             CreateMap<TestResultViewModel, TestResult>().ReverseMap();
-            CreateMap<TestViewModel, TestViewModel>().ReverseMap();
+            CreateMap<TestViewModel, Test>().ReverseMap();
         }
     }
 }

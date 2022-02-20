@@ -113,9 +113,12 @@ namespace WorldAroundUs.Services
 
         public List<QuestionAnswerOptionViewModel> GetFreeQuestionByTestId(int id, string userId)
         {
-            var question = db.QuestionAnswerOptions.FirstOrDefault(x => !db.ResponseHistories
-                    .Any(y => (y.QuestionId == x.Id && y.UserId == userId) && x.Question.Test.Id == id));
-            
+            var question = db.QuestionAnswerOptions
+                .Include(x => x.Question)
+                .Include(x => x.AnswerOption)
+                .Where(x => !db.ResponseHistories
+                    .Any(y => (y.QuestionId == x.Id && y.UserId == userId) && x.Question.Test.Id == id)).ToList();
+
             return mapper.Map<List<QuestionAnswerOptionViewModel>>(question);
         }
         

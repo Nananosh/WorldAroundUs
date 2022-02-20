@@ -1,1 +1,18 @@
 ﻿@model List<WorldAroundUs.ViewModels.QuestionAnswerOptionViewModel>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 d-flex justify-content-center">
+            @Model[0].Question.Text
+        </div>
+        <div class="h2">Выберите правильный ответ</div>
+        <form>
+        @foreach (var answer in @Model)
+        {
+            <div class="h2 col-lg-12">
+                <input type="radio" name="answer" value="@answer.Id"/>@answer.AnswerOption.Text
+            </div>
+        }
+        <button class="btn btn-primary">Далее</button>
+        </form>
+    </div>
+</div>
