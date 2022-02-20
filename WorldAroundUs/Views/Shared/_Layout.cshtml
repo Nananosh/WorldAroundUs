@@ -25,16 +25,16 @@
                 <br>
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Задачи</a>
+                        <a class="nav-link text-white hb" asp-area="" asp-controller="Home" asp-action="Index">Задачи</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Рейтинг</a>
+                        <a class="nav-link text-white hb" asp-area="" asp-controller="Home" asp-action="Index">Рейтинг</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Успехи</a>
+                        <a class="nav-link text-white hb" asp-area="" asp-controller="Home" asp-action="Index">Успехи</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Справка</a>
+                        <a class="nav-link text-white hb" asp-area="" asp-controller="Home" asp-action="Index">Справка</a>
                     </li>
 
                 </ul>
@@ -45,26 +45,26 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
                                role="button" data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
-                                <img id="avatar" class="rounded-circle" src="" value="" alt="avatar" style="height: 33px; width: 33px; object-fit:cover;"/>
+                                <img id="avatar" class="rounded-circle" src="" value="" alt="avatar" style="height: 50px; width: 50px; object-fit:cover;"/>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" asp-route-id="@User.Claims.ElementAt(0).Value">@User.Claims.ElementAt(1).Value</a>
+                                <a class="dropdown-item hr" asp-route-id="@User.Claims.ElementAt(0).Value">@User.Claims.ElementAt(1).Value</a>
                                 <div class="dropdown-divider"></div>
                                 @if (User.IsInRole("Admin"))
                                 {
-                                    <a asp-action="AdminPanel" asp-controller="Admin" class="dropdown-item">Админка</a>
+                                    <a asp-action="AdminPanel" asp-controller="Admin" class="dropdown-item hr">Админка</a>
                                 }
-                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Выход</a>
+                                <a class="dropdown-item hr" asp-area="" asp-controller="Account" asp-action="Logout">Выход</a>
                             </div>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Войти</a>
+                            <a class="nav-link text-white hb" asp-controller="Account" asp-action="Login">Войти</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Зарегистрироваться</a>
+                            <a class="nav-link text-white hb" asp-controller="Account" asp-action="Register">Зарегистрироваться</a>
                         </li>
                     }
                 </ul>
@@ -89,7 +89,7 @@ $.get('@Url.Action("GetUserImage", "Account", new {id = User.Claims.ElementAt(0)
 <footer class="footer text-muted" style="background-color: #63C0B5;">
     <div class="container p-2">
         <div class="row d-flex align-items-center">
-            <div class="col-lg-6">ООО Мара Принт</div>
+            <div class="col-lg-6 text-white hb">ООО Мара Принт</div>
             <div class="col-lg-6 d-flex justify-content-end">
                 <a class="mr-1">
                     <img id="tg" class="rounded-circle" src="https://img.icons8.com/fluency/48/000000/telegram-app.png" alt="tg" style="height: 40px; width: 40px; object-fit: none;"/>

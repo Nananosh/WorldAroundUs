@@ -101,3 +101,35 @@ body {
   height: auto;
   object-fit: cover;
 }
+
+@font-face {
+  font-family: "HezaedrusBlack";
+  src: url("../fonts/Hezaedrus/Hezaedrus-Black.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "HezaedrusRegular";
+  src: url("../fonts/Hezaedrus/Hezaedrus-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "HezaedrusMedium";
+  src: url("../fonts/Hezaedrus/Hezaedrus-Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+.hb{
+  font-family: "HezaedrusBlack";
+  color: #053A32;
+}
+.hr{
+  font-family: "HezaedrusRegular";
+  color: #053A32;
+}
+.hm{
+  font-family: "HezaedrusMedium";
+  color: #053A32;
+}

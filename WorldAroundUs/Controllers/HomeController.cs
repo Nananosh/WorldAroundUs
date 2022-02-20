@@ -46,8 +46,8 @@ namespace WorldAroundUs.Controllers
             sectionService.AddAnswerToQuestion(userId, idAnswer);
             
             var testByThemeId = sectionService.GetFreeQuestionByTestId(id, userId);
-            
-            return View(testByThemeId);
+            return null;
+            // return View(testByThemeId);
         }
 
         public async Task<IActionResult> Subsections(int id, string theme)
