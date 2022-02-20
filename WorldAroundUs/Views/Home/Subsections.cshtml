@@ -2,15 +2,11 @@
 <div class="row" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgb(169, 218, 214) 100%), url(../../back.jpg) no-repeat center center fixed; height: 500px; width: 100%; background-size: cover; margin: 0;">
     <div class="col-lg-12 d-flex align-items-center justify-content-center mt-5">
         <div>
-            <div class="h1 d-flex justify-content-center">Электронная энциклопедия</div>
-            <br/>
-            <div class="h3 d-flex justify-content-center">Изучаем окружающий мир</div>
-            <div class="h3 d-flex justify-content-center">вокруг нас, вместе!</div>
+            <div class="h1 d-flex justify-content-center hb" style="font-size: 55px">@ViewBag.Theme</div>
         </div>
     </div>
 </div>
 <div class="container mt-5">
-    <div class="row d-flex justify-content-center mt-5 mb-5">@ViewBag.Theme</div>
     <div class="row">
         @foreach (var item in @Model)
         {
@@ -19,11 +15,11 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-center">
                             <span class="radios-img">
-                                <img class="mx-auto d-block rounded responsive" src="@item.ImageUrl" alt="@item.Title image" style="width:100%;">
+                                <img class="mx-auto d-block rounded resqponsive" src="@item.ImageUrl" alt="@item.Title image" style="width:100%;">
                             </span>
                         </div>
                         <a asp-action="Themes" asp-controller="Home" asp-route-id="@item.Id" style="text-decoration: none; color: black;">
-                            <h4 class="card-title d-flex justify-content-center mt-2">@item.Title</h4>
+                            <h4 class="card-title d-flex justify-content-center mt-2 hm" style="font-size: 25px">@item.Title</h4>
                         </a>
                     </div>
                 </div>

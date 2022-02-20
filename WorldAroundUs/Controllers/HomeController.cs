@@ -44,6 +44,7 @@ namespace WorldAroundUs.Controllers
         [ActionName("Test")]
         public IActionResult NextQuestion(int id, int idAnswer)
         {
+            
             var userId = User.Claims.ElementAt(0).Value;
             if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
             
