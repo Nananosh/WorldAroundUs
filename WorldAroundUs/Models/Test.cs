@@ -6,8 +6,8 @@ namespace WorldAroundUs.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public Theme Theme { get; set; }
-        public int ThemeId { get; set; }
+        public Subsection Subsection { get; set; }
+        public int SubsectionId { get; set; }
         public List<TestResult> TestResults { get; set; }
         public List<Question> Questions { get; set; }
     }
