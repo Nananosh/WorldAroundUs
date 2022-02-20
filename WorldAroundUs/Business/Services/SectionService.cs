@@ -111,12 +111,12 @@ namespace WorldAroundUs.Services
             return mapper.Map<TestViewModel>(testByTheme);
         }
 
-        public QuestionViewModel GetFreeQuestionByTestId(int id, string userId)
+        public List<QuestionAnswerOptionViewModel> GetFreeQuestionByTestId(int id, string userId)
         {
             var question = db.QuestionAnswerOptions.FirstOrDefault(x => !db.ResponseHistories
                     .Any(y => (y.QuestionId == x.Id && y.UserId == userId) && x.Question.Test.Id == id));
-
-            return mapper.Map<QuestionAnswerOptionViewModel>(question);
+            
+            return mapper.Map<List<QuestionAnswerOptionViewModel>>(question);
         }
         
         public ThemeViewModel UpdateTheme(ThemeViewModel model)
@@ -137,6 +137,11 @@ namespace WorldAroundUs.Services
                 .Include(x => x.Section).FirstOrDefault(x => x.Id == updateTheme.Id);
 
             return mapper.Map<ThemeViewModel>(updatedTheme);
+        }
+
+        public void AddAnswerToQuestion(string userId, int answerId)
+        {
+            db.ResponseHistories.Add(new ResponseHistory(){ UserId = userId, QuestionId = answerId });
         }
 
         public IEnumerable<SubsectionViewModel> GetAllSubsections()

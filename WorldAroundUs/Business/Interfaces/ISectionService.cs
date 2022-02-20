@@ -20,9 +20,10 @@ namespace WorldAroundUs
         SubsectionViewModel CreateSubsection(SubsectionViewModel model);
         ThemeViewModel CreateTheme(ThemeViewModel model);
         TestViewModel GetTestByThemeId(int id);
-        QuestionViewModel GetFreeQuestionByTestId(int id, string userId);
+        List<QuestionAnswerOptionViewModel> GetFreeQuestionByTestId(int id, string userId);
         IEnumerable<SubsectionViewModel> GetAllSubsections();
         IEnumerable<ThemeViewModel> GetAllThemes();
         List<SectionViewModel> GetAllSections();
+        void AddAnswerToQuestion(string userId, int answerId);
     }
 }

@@ -34,6 +34,21 @@ namespace WorldAroundUs.Controllers
             
             return View(testByThemeId);
         }
+        
+        [HttpPost]
+        [ActionName("Test")]
+        public IActionResult NextQuestion(int id, int idAnswer)
+        {
+            
+            var userId = User.Claims.ElementAt(0).Value;
+            if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
+            
+            sectionService.AddAnswerToQuestion(userId, idAnswer);
+            
+            var testByThemeId = sectionService.GetFreeQuestionByTestId(id, userId);
+            
+            return View(testByThemeId);
+        }
 
         public async Task<IActionResult> Subsections(int id, string theme)
         {
