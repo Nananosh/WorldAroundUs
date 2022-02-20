@@ -8,6 +8,7 @@ namespace WorldAroundUs.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string ImageUrl { get; set; }
+        public string BackgroundImage { get; set; }
         [JsonIgnore]
         public List<Subsection> Subsections { get; set; } 
     }

@@ -106,7 +106,7 @@ namespace WorldAroundUs.Services
 
         public TestViewModel GetTestByThemeId(int id)
         {
-            var testByTheme = db.Tests.FirstOrDefault(x => x.ThemeId == id);
+            var testByTheme = db.Tests.FirstOrDefault(x => x.SubsectionId == id);
 
             return mapper.Map<TestViewModel>(testByTheme);
         }
@@ -115,9 +115,10 @@ namespace WorldAroundUs.Services
         {
             var question = db.QuestionAnswerOptions
                 .Include(x => x.Question)
+                .ThenInclude(x => x.Test)
                 .Include(x => x.AnswerOption)
                 .Where(x => !db.ResponseHistories
-                    .Any(y => (y.QuestionId == x.Id && y.UserId == userId) && x.Question.Test.Id == id)).ToList();
+                    .Any(y => (y.Question.QuestionId == x.Question.Id && y.UserId == userId) && x.Question.Test.Id == id)).ToList();
 
             return mapper.Map<List<QuestionAnswerOptionViewModel>>(question);
         }
@@ -145,6 +146,7 @@ namespace WorldAroundUs.Services
         public void AddAnswerToQuestion(string userId, int answerId)
         {
             db.ResponseHistories.Add(new ResponseHistory(){ UserId = userId, QuestionId = answerId });
+            db.SaveChanges();
         }
 
         public IEnumerable<SubsectionViewModel> GetAllSubsections()

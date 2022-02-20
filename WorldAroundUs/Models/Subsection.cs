@@ -1,4 +1,6 @@
-﻿namespace WorldAroundUs.Models
+﻿using System.Collections.Generic;
+
+namespace WorldAroundUs.Models
 {
     public class Subsection
     {
@@ -9,5 +11,6 @@
         public string Text { get; set; }
         public string ImageUrl { get; set; }
         public string VideoUrl { get; set; }
+        private List<Test> Tests { get; set; }
     }
 }

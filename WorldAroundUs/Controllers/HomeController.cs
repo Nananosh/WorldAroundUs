@@ -31,15 +31,19 @@ namespace WorldAroundUs.Controllers
             if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
             
             var testByThemeId = sectionService.GetFreeQuestionByTestId(id, userId);
-            
-            return View(testByThemeId);
+
+            return testByThemeId.Count != 0 ? View(testByThemeId) : RedirectToAction("TestResult", "Home", id);
+        }
+
+        public IActionResult TestResult(int id)
+        {
+            return View(id);
         }
         
         [HttpPost]
         [ActionName("Test")]
         public IActionResult NextQuestion(int id, int idAnswer)
         {
-            
             var userId = User.Claims.ElementAt(0).Value;
             if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
             
@@ -47,7 +51,7 @@ namespace WorldAroundUs.Controllers
             
             var testByThemeId = sectionService.GetFreeQuestionByTestId(id, userId);
             
-            return View(testByThemeId);
+            return testByThemeId.Count != 0 ? View(testByThemeId) : RedirectToAction("TestResult", "Home", id);
         }
 
         public async Task<IActionResult> Subsections(int id, string theme)
