@@ -8,6 +8,7 @@ namespace WorldAroundUs.Models
         public string Text { get; set; }
         public Test Test { get; set; }
         public int TestId { get; set; }
+        public int Point { get; set; }
         public List<QuestionAnswerOption> AnswerOption { get; set; }
     }
 }

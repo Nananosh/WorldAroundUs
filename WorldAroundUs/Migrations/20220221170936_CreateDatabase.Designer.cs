@@ -10,8 +10,8 @@ using WorldAroundUs.Migrations;
 namespace WorldAroundUs.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220220140942_Init")]
-    partial class Init
+    [Migration("20220221170936_CreateDatabase")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -176,6 +176,9 @@ namespace WorldAroundUs.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Point")
+                        .HasColumnType("int");
 
                     b.Property<int>("TestId")
                         .HasColumnType("int");

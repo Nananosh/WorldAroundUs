@@ -175,6 +175,9 @@ namespace WorldAroundUs.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Point")
+                        .HasColumnType("int");
+
                     b.Property<int>("TestId")
                         .HasColumnType("int");
 
