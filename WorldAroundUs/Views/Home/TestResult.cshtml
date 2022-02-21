@@ -1,7 +1,10 @@
-﻿@model int
+﻿@model WorldAroundUs.ViewModels.TestResultViewModel
     
 <h1>Поздравляю!</h1>
 <h3>Тест пройден</h3>
 <br/>
-    <br/>
-    <button type="button" class="btn btn-info">Посмотреть результат</button>
+<br/>
+<h4>Вы набрали:</h4>
+<p>@Model.Points</p>
+<h4>Максимум можно было набрать:</h4>
+<p>@ViewBag.MaxPoints</p>

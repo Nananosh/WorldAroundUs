@@ -37,7 +37,13 @@ namespace WorldAroundUs.Controllers
 
         public IActionResult TestResult(int id)
         {
-            return View(id);
+            var userId = User.Claims.ElementAt(0).Value;
+            if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
+
+            var userPoints = sectionService.GetResultTestByTestIdUserId(userId, id);
+            
+            ViewBag.MaxPoints = sectionService.MaxPointsInTest(id);
+            return View(userPoints);
         }
         
         [HttpPost]

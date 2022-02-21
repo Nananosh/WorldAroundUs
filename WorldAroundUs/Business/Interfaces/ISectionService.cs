@@ -24,6 +24,8 @@ namespace WorldAroundUs
         IEnumerable<SubsectionViewModel> GetAllSubsections();
         IEnumerable<ThemeViewModel> GetAllThemes();
         List<SectionViewModel> GetAllSections();
+        TestResultViewModel GetResultTestByTestIdUserId(string userId, int testId);
+        int MaxPointsInTest(int testId);
         void AddAnswerToQuestion(string userId, int answerId);
     }
 }

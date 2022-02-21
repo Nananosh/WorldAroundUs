@@ -118,11 +118,43 @@ namespace WorldAroundUs.Services
                 .ThenInclude(x => x.Test)
                 .Include(x => x.AnswerOption)
                 .Where(x => !db.ResponseHistories
-                    .Any(y => (y.Question.QuestionId == x.Question.Id && y.UserId == userId) && x.Question.Test.Id == id)).ToList();
+                    .Any(y => (y.Question.QuestionId == x.Question.Id && y.UserId == userId && x.QuestionId == id) && x.Question.Test.Id == id)).ToList();
 
             return mapper.Map<List<QuestionAnswerOptionViewModel>>(question);
         }
-        
+
+        public TestResultViewModel GetResultTestByTestIdUserId(string userId, int testId)
+        {
+            var userAnswers =
+                db.ResponseHistories
+                    .Include(x => x.Question)
+                    .ThenInclude(x => x.Question)
+                    .Where(x => x.Question.Question.Test.Id == testId && x.UserId == userId && x.Question.IsCorrectly).ToList();
+
+            int userPoints = 0;
+
+            foreach (var item in userAnswers)
+            {
+                userPoints += item.Question.Question.Point;
+            }
+
+            return new TestResultViewModel() {Points = userPoints, TestId = testId, UserId = userId};
+        }
+
+        public int MaxPointsInTest(int testId)
+        {
+            var userAnswers =
+                db.Questions.Where(x => x.Test.Id == testId).ToList();
+            
+            int points = 0;
+
+            foreach (var item in userAnswers)
+            {
+                points += item.Point;
+            }
+
+            return points;
+        }
         public ThemeViewModel UpdateTheme(ThemeViewModel model)
         {
             var updateTheme = db.Themes.FirstOrDefault(x => x.Id == model.Id);
