@@ -1,0 +1,34 @@
+﻿@model List<WorldAroundUs.ViewModels.TestResultViewModel>
+
+<table class="table">
+    <thead class="thead-light">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GetEnumerator().Current.User.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GetEnumerator().Current.Test.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GetEnumerator().Current.Points)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in @Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelElem => item.User.UserName)
+            </td>
+            <td>
+            <a asp-area="" asp-controller="Home" asp-action="TestInfoById" asp-route-id="@item.TestId">
+                @Html.DisplayFor(modelElem => item.Test.Title)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelElem => item.Points)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

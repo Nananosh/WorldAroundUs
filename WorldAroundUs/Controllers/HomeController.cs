@@ -31,19 +31,46 @@ namespace WorldAroundUs.Controllers
             if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
             
             var testByThemeId = sectionService.GetFreeQuestionByTestId(id, userId);
-
-            return testByThemeId.Count != 0 ? View(testByThemeId) : RedirectToAction("TestResult", "Home", id);
+            
+            return testByThemeId != null ? View(testByThemeId) : RedirectToAction("TestResult", "Home", new {testId = id});
         }
 
-        public IActionResult TestResult(int id)
+        public IActionResult TestResult(int testId)
+        {
+            var userId = User.Claims.ElementAt(0).Value;
+            if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
+            
+            var userPoints = sectionService.GetResultTestByTestIdUserId(userId, testId);
+            
+            ViewBag.MaxPoints = sectionService.MaxPointsInTest(testId);
+            return View(userPoints);
+        }
+
+        public IActionResult UserTestRating(int id)
+        {
+            var userId = User.Claims.ElementAt(0).Value;
+            if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
+            
+            var rating = sectionService.GetTestResultByTestId(id, userId);
+
+            return View(rating);
+        }
+
+        public IActionResult TestInfoById(int id)
         {
             var userId = User.Claims.ElementAt(0).Value;
             if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
 
-            var userPoints = sectionService.GetResultTestByTestIdUserId(userId, id);
-            
-            ViewBag.MaxPoints = sectionService.MaxPointsInTest(id);
-            return View(userPoints);
+            var userTest = sectionService.GetUserTestHistory(userId, id);
+
+            return View(userTest);
+        }
+        
+        public IActionResult UserAllTestRating()
+        {
+            var rating = sectionService.GetRating();
+
+            return View(rating);
         }
         
         [HttpPost]
@@ -58,7 +85,7 @@ namespace WorldAroundUs.Controllers
             
             var testByThemeId = sectionService.GetFreeQuestionByTestId(id, userId);
             
-            return testByThemeId.Count != 0 ? View(testByThemeId) : RedirectToAction("TestResult", "Home", id);
+            return testByThemeId != null ? View(testByThemeId) : RedirectToAction("TestResult", "Home", new {testId = id});
         }
 
         public async Task<IActionResult> Subsections(int id, string theme)

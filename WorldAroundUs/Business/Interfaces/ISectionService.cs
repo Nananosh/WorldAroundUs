@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WorldAroundUs.Models;
 using WorldAroundUs.ViewModels;
 
 namespace WorldAroundUs
@@ -24,8 +25,11 @@ namespace WorldAroundUs
         IEnumerable<SubsectionViewModel> GetAllSubsections();
         IEnumerable<ThemeViewModel> GetAllThemes();
         List<SectionViewModel> GetAllSections();
+        List<TestResultViewModel> GetTestResultByTestId(int testId, string userId);
         TestResultViewModel GetResultTestByTestIdUserId(string userId, int testId);
         int MaxPointsInTest(int testId);
         void AddAnswerToQuestion(string userId, int answerId);
+        List<ResponseHistoryViewModel> GetUserTestHistory(string userId, int testId);
+        List<GlobalResult> GetRating();
     }
 }

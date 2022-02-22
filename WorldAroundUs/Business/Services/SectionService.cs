@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -113,16 +114,34 @@ namespace WorldAroundUs.Services
 
         public List<QuestionAnswerOptionViewModel> GetFreeQuestionByTestId(int id, string userId)
         {
-            var question = db.QuestionAnswerOptions
+            var questionList = db.QuestionAnswerOptions
                 .Include(x => x.Question)
                 .ThenInclude(x => x.Test)
                 .Include(x => x.AnswerOption)
                 .Where(x => !db.ResponseHistories
-                    .Any(y => (y.Question.QuestionId == x.Question.Id && y.UserId == userId && x.QuestionId == id) && x.Question.Test.Id == id)).ToList();
+                    .Any(y => (y.Question.QuestionId == x.Question.Id && y.UserId == userId))&& x.Question.Test.Id == id)
+                .Select(x => x.QuestionId)
+                .Distinct().ToList();
 
+            if (questionList.Count == 0) return null;
+
+            var questionId = questionList.FirstOrDefault();
+
+            var question = db.QuestionAnswerOptions
+                .Include(x => x.Question)
+                .ThenInclude(x => x.Test)
+                .Include(x => x.AnswerOption)
+                .Where(x => x.QuestionId == questionId).ToList();
+            
             return mapper.Map<List<QuestionAnswerOptionViewModel>>(question);
         }
 
+        private void AddTestResult(TestResult model)
+        {
+            db.TestResults.Add(model);
+            db.SaveChanges();
+        }
+        
         public TestResultViewModel GetResultTestByTestIdUserId(string userId, int testId)
         {
             var userAnswers =
@@ -137,10 +156,63 @@ namespace WorldAroundUs.Services
             {
                 userPoints += item.Question.Question.Point;
             }
+            
+            var userTestResult = new TestResult {Points = userPoints, TestId = testId, UserId = userId};
+            
+            var checkUserTestResult = db.TestResults.Any(x => x.UserId == userId && x.TestId == testId);
+            
+            if (!checkUserTestResult)
+            {
+                AddTestResult(userTestResult);
+            }
 
-            return new TestResultViewModel() {Points = userPoints, TestId = testId, UserId = userId};
+            return mapper.Map<TestResultViewModel>(userTestResult);
         }
 
+        public List<TestResultViewModel> GetTestResultByTestId(int testId, string userId)
+        {
+            var top = db.TestResults
+                .Include(x => x.User)
+                .Include(x => x.Test)
+                .Where(x => x.TestId == testId && x.UserId == userId)
+                .OrderBy(x => x.Points).Take(10).ToList();
+
+            return mapper.Map<List<TestResultViewModel>>(top);
+        }
+
+        public List<ResponseHistoryViewModel> GetUserTestHistory(string userId, int testId)
+        {
+            var userQuestionByTestId = db.ResponseHistories
+                .Include(x => x.Question)
+                .ThenInclude(x => x.Question)
+                .ThenInclude(x => x.AnswerOption)
+                .ThenInclude(x => x.AnswerOption)
+                .Where(x => x.Question.Question.TestId == testId)
+                .ToList();
+
+            return mapper.Map<List<ResponseHistoryViewModel>>(userQuestionByTestId);
+        }
+
+        public List<GlobalResult> GetRating()
+        {
+            var top = db.TestResults
+                .Include(x => x.Test)
+                .Include(x => x.User)
+                .ToList()
+                .GroupBy(x => x.User.UserName)
+                .Select(g =>
+                new GlobalResult
+                {
+                    User = g.Key,
+                    Points = g.Sum(x => x.Points)
+                });
+
+            var userTop = top
+                .OrderByDescending(x => x.Points).ToList();
+
+            return userTop;
+        }
+        
         public int MaxPointsInTest(int testId)
         {
             var userAnswers =

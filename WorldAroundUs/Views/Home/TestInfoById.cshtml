@@ -1,0 +1,30 @@
+﻿@model List<WorldAroundUs.ViewModels.ResponseHistoryViewModel>
+
+
+    @foreach (var item in @Model)
+    {
+        <p>
+            @item.Question.Question.Text
+            @foreach (var i in @item.Question.Question.AnswerOption)
+            {
+                if (i.IsCorrectly)
+                {
+                    <p>Правильный вариант -@i.AnswerOption.Text</p>
+                }
+                else
+                {
+                    <p>@i.AnswerOption.Text</p>
+                }
+
+            }
+            <p>Ответ пользователя - @item.Question.AnswerOption.Text</p>
+            @if (item.Question.IsCorrectly)
+            {
+                <p>баллы - @item.Question.Question.Point</p>
+            }
+            else
+            {
+                <p>баллы - 0</p>
+            }
+        </p>
+    }
