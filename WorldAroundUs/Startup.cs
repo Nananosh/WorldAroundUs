@@ -31,6 +31,7 @@ namespace WorldAroundUs
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ISectionService, SectionService>();
+            services.AddTransient<IAdminService, AdminService>();
             services.AddTransient<ISeedDatabaseService, SeedDatabaseService>();
             
             services.AddAutoMapper(typeof(MappingProfile));

@@ -227,6 +227,7 @@ namespace WorldAroundUs.Services
 
             return points;
         }
+        
         public ThemeViewModel UpdateTheme(ThemeViewModel model)
         {
             var updateTheme = db.Themes.FirstOrDefault(x => x.Id == model.Id);
@@ -258,6 +259,13 @@ namespace WorldAroundUs.Services
             var subsections = db.Subsections.Include(x => x.Section).ToList();
 
             return mapper.Map<IEnumerable<SubsectionViewModel>>(subsections);
+        }
+        
+        public IEnumerable<AnswerOptionViewModel> GetAllAnswerOption()
+        {
+            var answerOptions = db.AnswerOptions.ToList();
+
+            return mapper.Map<IEnumerable<AnswerOptionViewModel>>(answerOptions);
         }
         
         public IEnumerable<ThemeViewModel> GetAllThemes()

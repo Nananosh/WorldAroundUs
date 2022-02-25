@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Управление тестами";
+}
+
+<div class="container mt-5">
+    <div id="grid"></div>
+</div>
+    <script>
+        $(document).ready(function() {
+            $("#grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("GetAllTests", "Admin")",
+                        update: {
+                            url: "@Url.Action("UpdateTest","Admin")",
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        create:{
+                            url: "@Url.Action("CreateTest", "Admin")",
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        destroy: {
+                            url: "@Url.Action("RemoveTest","Admin")",
+                            dataType: "json",
+                            type: "DELETE"
+                        }
+                    },
+                    schema: {
+                        model: {
+                            id: "Id",
+                            fields: {
+                                Id: { editable: false, from: "id", type: "number" },
+                                Title: { from: "title", validation: {required: true} }, 
+                                Subsection: { from: "subsection",nullable: true, validation: {required: true} },
+                                SubsectionId: {from: "subsectionId",nullable: true, validation: {required: true} }
+                            }
+                        }
+                    },
+                    pageSize: 20,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                height: 550,
+                editable: {
+                    mode: "popup",
+                    window: {
+                        scrollable: false,
+                        resizable: false,
+                    }
+                },
+                pageable: true,
+                toolbar: [
+                                    {name: "create"}
+                                ],
+                columns: [
+                    {
+                        field:"Id",
+                        filterable: false
+                    },
+                    {
+                        field:"Title",
+                        title: "Название"
+                    },
+                    {
+                        field: "Subsection.title",
+                        title: "Подтема",
+                        editor: subsectionEditor,
+                        template: function(dataItem) {
+                                                    if (dataItem.Subsection == null)
+                                                        return '';
+                                                    else
+                                                        return dataItem.Subsection.title;
+                                                }
+                    },
+                    {
+                        command: "edit", 
+                    },
+                    {
+                        command: "destroy"
+                    }
+                ]
+            });
+        });
+        
+        function subsectionEditor(container, options) {
+            $('<input required name="SubsectionId">')
+                .appendTo(container)
+                .kendoDropDownList({
+                    dataTextField: "title",
+                    dataValueField: "id",
+                    height: 500,
+                    valuePrimitive: true,
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@Url.Action("GetAllSubsections", "Admin")",
+                                dataType: "json",
+                                cache: false
+                            }
+                        }
+                    }
+                });
+        }
+    </script>

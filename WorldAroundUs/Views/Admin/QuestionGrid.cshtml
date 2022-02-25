@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Управление вопросами к тестам";
+}
+
+<div class="container mt-5">
+    <div id="grid"></div>
+</div>
+    <script>
+        $(document).ready(function() {
+            $("#grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("GetAllQuestions", "Admin")",
+                        update: {
+                            url: "@Url.Action("UpdateQuestion", "Admin")",
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        create:{
+                            url: "@Url.Action("CreateQuestion", "Admin")",
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        destroy: {
+                            url: "@Url.Action("RemoveQuestion", "Admin")",
+                            dataType: "json",
+                            type: "DELETE"
+                        }
+                    },
+                    schema: {
+                        model: {
+                            id: "Id",
+                            fields: {
+                                Id: { editable: false, from: "id", type: "number" },
+                                Text: { from: "text", validation: {required: true} }, 
+                                Test: { from: "test", validation: {required: true} },
+                                TestId: {from: "testId",nullable: true, validation: {required: true} },
+                                Point: {from: "point",nullable: false,type: "number"  , validation: {required: true} }
+                            }
+                        }
+                    },
+                    pageSize: 20,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                height: 550,
+                editable: {
+                    mode: "popup",
+                    window: {
+                        scrollable: false,
+                        resizable: false,
+                    }
+                },
+                pageable: true,
+                toolbar: [
+                    {name: "create"}
+                ],
+                columns: [
+                    {
+                        field:"Id",
+                        filterable: false
+                    },
+                    {
+                        field:"Text",
+                        title: "Вопрос"
+                    },
+                    {
+                        field: "Test.title",
+                        title: "Тест",
+                        editor: testEditor
+                    },
+                    {
+                        field:"Point",
+                        title: "Баллы"
+                    },
+                    {
+                        command: "edit", 
+                    },
+                    {
+                        command: "destroy"
+                    }
+                ]
+            });
+        });
+        
+        function testEditor(container, options) {
+            $('<input required name="TestId">')
+                .appendTo(container)
+                .kendoDropDownList({
+                    dataTextField: "title",
+                    dataValueField: "id",
+                    height: 500,
+                    valuePrimitive: true,
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@Url.Action("GetAllTests", "Admin")",
+                                dataType: "json",
+                                cache: false
+                            }
+                        }
+                    }
+                });
+        }
+    </script>

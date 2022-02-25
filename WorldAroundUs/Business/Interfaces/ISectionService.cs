@@ -24,6 +24,7 @@ namespace WorldAroundUs
         List<QuestionAnswerOptionViewModel> GetFreeQuestionByTestId(int id, string userId);
         IEnumerable<SubsectionViewModel> GetAllSubsections();
         IEnumerable<ThemeViewModel> GetAllThemes();
+        IEnumerable<AnswerOptionViewModel> GetAllAnswerOption();
         List<SectionViewModel> GetAllSections();
         List<TestResultViewModel> GetTestResultByTestId(int testId, string userId);
         TestResultViewModel GetResultTestByTestIdUserId(string userId, int testId);

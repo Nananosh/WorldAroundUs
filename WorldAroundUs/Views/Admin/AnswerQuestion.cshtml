@@ -1,0 +1,140 @@
+﻿@{
+    ViewData["Title"] = "Управление вариантами ответа на вопросы";
+}
+
+<div class="container mt-5">
+    <div id="grid"></div>
+</div>
+    <script>
+        $(document).ready(function() {
+            $("#grid").kendoGrid({
+                dataSource: {
+                    transport: {
+                        read: "@Url.Action("GetAllQuestionAnswerOptions", "Admin")",
+                        update: {
+                            url: "@Url.Action("UpdateQuestionAnswerOption","Admin")",
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        create:{
+                            url: "@Url.Action("CreateQuestionAnswerOption", "Admin")",
+                            dataType: "json",
+                            type: "POST"
+                        },
+                        destroy: {
+                            url: "@Url.Action("RemoveQuestionAnswerOption","Admin")",
+                            dataType: "json",
+                            type: "DELETE"
+                        }
+                    },
+                    schema: {
+                        model: {
+                            id: "Id",
+                            fields: {
+                                Id: { editable: false, from: "id", type: "number" },
+                                IsCorrectly: { from: "isCorrectly", type: "boolean" ,validation: {required: true} }, 
+                                Question: { from: "question",nullable: true, validation: {required: true} },
+                                QuestionId: {from: "questionId",nullable: true, validation: {required: true} },
+                                AnswerOption: { from: "answerOption",nullable: true, validation: {required: true} },
+                                AnswerOptionId: {from: "answerOptionId",nullable: true, validation: {required: true} }
+                            }
+                        }
+                    },
+                    pageSize: 20,
+                    serverPaging: true,
+                    serverFiltering: true,
+                    serverSorting: true
+                },
+                height: 550,
+                editable: {
+                    mode: "popup",
+                    window: {
+                        scrollable: false,
+                        resizable: false,
+                    }
+                },
+                pageable: true,
+                toolbar: [
+                    {name: "create"}
+                ],
+                columns: [
+                    {
+                        field:"Id",
+                        filterable: false
+                    },
+                    {
+                        field: "Question.text",
+                        title: "Вопрос",
+                        editor: questionEditor,
+                        template: function(dataItem) {
+                            if (dataItem.Question == null)
+                                return '';
+                            else
+                                return dataItem.Question.text;
+                        }
+                    },
+                    {
+                                            field: "AnswerOption.text",
+                                            title: "Вариант ответа",
+                                            editor: answerOptionEditor,
+                                            template: function(dataItem) {
+                                                if (dataItem.AnswerOption == null)
+                                                    return '';
+                                                else
+                                                    return dataItem.AnswerOption.text;
+                                            }
+                                        },
+                                        {
+                                            field: "IsCorrectly",
+                                            title: "Правильный ли"
+                                        },
+                    {
+                        command: "edit", 
+                    },
+                    {
+                        command: "destroy"
+                    }
+                ]
+            });
+        });
+        
+        function questionEditor(container, options) {
+            $('<input required name="QuestionId">')
+                .appendTo(container)
+                .kendoDropDownList({
+                    dataTextField: "text",
+                    dataValueField: "id",
+                    height: 500,
+                    valuePrimitive: true,
+                    dataSource: {
+                        transport: {
+                            read: {
+                                url: "@Url.Action("GetAllQuestions", "Admin")",
+                                dataType: "json",
+                                cache: false
+                            }
+                        }
+                    }
+                });
+        }
+        
+        function answerOptionEditor(container, options) {
+                    $('<input required name="AnswerOptionId">')
+                        .appendTo(container)
+                        .kendoDropDownList({
+                            dataTextField: "text",
+                            dataValueField: "id",
+                            height: 500,
+                            valuePrimitive: true,
+                            dataSource: {
+                                transport: {
+                                    read: {
+                                        url: "@Url.Action("GetAllAnswerOption", "Admin")",
+                                        dataType: "json",
+                                        cache: false
+                                    }
+                                }
+                            }
+                        });
+                }
+    </script>
