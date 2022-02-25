@@ -130,6 +130,7 @@ namespace WorldAroundUs.Services
             var question = db.QuestionAnswerOptions
                 .Include(x => x.Question)
                 .ThenInclude(x => x.Test)
+                .ThenInclude(x => x.Subsection)
                 .Include(x => x.AnswerOption)
                 .Where(x => x.QuestionId == questionId).ToList();
             
@@ -204,6 +205,7 @@ namespace WorldAroundUs.Services
                 new GlobalResult
                 {
                     User = g.Key,
+                    UserImage = g.Select(x => x.User.UserImageUrl).First(),
                     Points = g.Sum(x => x.Points)
                 });
 
