@@ -73,6 +73,24 @@ namespace WorldAroundUs.Controllers
             return View(rating);
         }
         
+        public IActionResult UserTestRatingBySubsectionId(int subsectionId)
+        {
+            var subsections = sectionService.GetAllSubsections();
+            
+            ViewBag.Subsections = subsections.ToList();
+            
+            if (subsectionId != 0)
+            {
+                var rating = sectionService.GetRatingBySubsectionId(subsectionId);
+                
+                return View(rating);
+            }
+            
+            var ratingWithOutFilters = sectionService.GetRating();
+
+            return View(ratingWithOutFilters);
+        }
+        
         [HttpPost]
         [ActionName("Test")]
         public IActionResult NextQuestion(int id, int idAnswer)

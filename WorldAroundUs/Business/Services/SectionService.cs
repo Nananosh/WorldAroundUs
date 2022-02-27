@@ -212,6 +212,27 @@ namespace WorldAroundUs.Services
 
             return userTop;
         }
+
+        public List<GlobalResult> GetRatingBySubsectionId(int subsectionId)
+        {
+            var top = db.TestResults
+                .Include(x => x.Test)
+                .Include(x => x.User)
+                .Where(x => x.Test.SubsectionId == subsectionId)
+                .ToList()
+                .GroupBy(x => x.User.UserName)
+                .Select(g =>
+                    new GlobalResult
+                    {
+                        User = g.Key,
+                        Points = g.Sum(x => x.Points)
+                    });
+
+            var userTop = top
+                .OrderByDescending(x => x.Points).ToList();
+
+            return userTop;
+        }
         
         public int MaxPointsInTest(int testId)
         {

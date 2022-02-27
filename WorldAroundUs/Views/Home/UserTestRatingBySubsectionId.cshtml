@@ -1,0 +1,44 @@
+﻿@model List<WorldAroundUs.Models.GlobalResult>
+
+
+<div class="col-2 bg-secondary shadow p-3 mb-5 bg-white rounded m-1 align-self-start">
+            <form method="post" asp-action="UserTestRatingBySubsectionId">
+                <div class="form-group">
+                    <label> Подтема</label>
+                    <select size="1" name="subsectionId" class="form-control">
+                        <option value="0">Не выбрано</option>
+                        @foreach (var item in ViewBag.Subsections)
+                        {
+                            <option value="@item.Id">@item.Title</option>
+                        }
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Найти</button>
+            </form>
+        </div>
+<table class="table">
+    <thead class="thead-light">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GetEnumerator().Current.User)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GetEnumerator().Current.Points)
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in @Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelElem => item.User)
+            </td>
+            <td>
+                @Html.DisplayFor(modelElem => item.Points)
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

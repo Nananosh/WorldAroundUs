@@ -32,5 +32,6 @@ namespace WorldAroundUs
         void AddAnswerToQuestion(string userId, int answerId);
         List<ResponseHistoryViewModel> GetUserTestHistory(string userId, int testId);
         List<GlobalResult> GetRating();
+        List<GlobalResult> GetRatingBySubsectionId(int subsectionId);
     }
 }
