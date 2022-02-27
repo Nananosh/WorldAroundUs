@@ -1,30 +1,67 @@
 ﻿@model List<WorldAroundUs.ViewModels.ResponseHistoryViewModel>
-
-
-    @foreach (var item in @Model)
-    {
-        <p>
-            @item.Question.Question.Text
+<div class="container shadow pt-3 pb-1 mb-2 d-flex justify-content-center mt-5" style="background-color: #56AFA3;">
+    <div class="row">
+        @foreach (var item in @Model)
+        {
+            <div class="col-lg-12 h2 hm mb-3">@item.Question.Question.Text</div>
             @foreach (var i in @item.Question.Question.AnswerOption)
             {
                 if (i.IsCorrectly)
                 {
-                    <p>Правильный вариант -@i.AnswerOption.Text</p>
+                    @if (!string.IsNullOrEmpty(@i.AnswerOption.Text))
+                    {
+                        <div class="col-lg-12 d-flex align-items-baseline">
+                            <p class="hr ml-3">@i.AnswerOption.Text (Правильный ответ)</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-12 d-flex align-items-center">
+                        <img src="@i.AnswerOption.ImageUrl" class="responsive ml-3" alt="" /><p class="hr ml-3">(Правильный ответ)</p>
+                        </div>
+                        }
                 }
                 else
                 {
-                    <p>@i.AnswerOption.Text</p>
+                    @if (!string.IsNullOrEmpty(@i.AnswerOption.Text))
+                    {
+                        <div class="col-lg-12 d-flex align-items-baseline">
+                            <p class="hr ml-3">@i.AnswerOption.Text</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-12 d-flex align-items-baseline">
+                            <img src="@i.AnswerOption.ImageUrl" class="responsive ml-3" alt=""/>
+                            </div>
+                    }
                 }
-
             }
-            <p>Ответ пользователя - @item.Question.AnswerOption.Text</p>
+            <div class="col-lg-12 d-flex align-items-center">
+                <p class="hr" style="font-size: 20px">Ответ пользователя : </p>
+                @if (!string.IsNullOrEmpty(@item.Question.AnswerOption.Text))
+                {
+                    <p class="hr ml-3 pt-1">@item.Question.AnswerOption.Text</p>
+                }
+                else
+                {
+                    <img src="@item.Question.AnswerOption.ImageUrl" class="responsive ml-3 mt-2 mb-2" alt=""/>
+                }
+            </div>
             @if (item.Question.IsCorrectly)
             {
-                <p>баллы - @item.Question.Question.Point</p>
+                <div class="col-lg-12 d-flex align-items-baseline">
+                    <p class="hr" style="font-size: 20px">Добавлено баллов за ответ пользователя :</p>
+                    <p class="hr ml-3">@item.Question.Question.Point</p>
+                </div>
             }
             else
             {
-                <p>баллы - 0</p>
+                <div class="col-lg-12 d-flex align-items-baseline">
+                    <p class="hr" style="font-size: 20px">Добавлено баллов за ответ пользователя :</p>
+                    <p class="hr ml-3">0</p>
+                </div>
             }
-        </p>
-    }
+        }
+    </div>
+</div>
