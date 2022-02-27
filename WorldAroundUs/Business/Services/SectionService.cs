@@ -240,6 +240,8 @@ namespace WorldAroundUs.Services
         {
             var top = db.TestResults
                 .Include(x => x.Test)
+                .ThenInclude(x => x.Subsection)
+                .ThenInclude(x => x.Section)
                 .Include(x => x.User)
                 .Where(x => x.UserId == userId)
                 .ToList()
@@ -248,13 +250,14 @@ namespace WorldAroundUs.Services
                     new UserSectionRecordViewModel()
                     {
                         Section = g.Key,
-                        CountTestSuccess = g.Select(x => db.Tests.Where(y => y.SubsectionId == x.Id && x.UserId == userId)).Count()
-                    });
+                        CountTest = g.Select(x => db.Tests.Where(y => y.SubsectionId == x.Test.SubsectionId)).Count(),
+                        CountTestSuccess = g.Select(x => db.Tests.Where(y => y.SubsectionId == x.Test.SubsectionId && x.UserId == userId)).Count()
+                    }).ToList();
 
-            var userTop = top
-                .OrderByDescending(x => x.Points).ToList();
+            // var userTop = top
+            //     .OrderByDescending(x => x.Points).ToList();
 
-            return userTop;
+            return null;
         }
         
         public int MaxPointsInTest(int testId)

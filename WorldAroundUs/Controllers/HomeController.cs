@@ -130,6 +130,13 @@ namespace WorldAroundUs.Controllers
             return View();
         }
 
+        public IActionResult GetUserRecordsByAllSections()
+        {
+            var userId = User.Claims.ElementAt(0).Value;
+            sectionService.GetUserRecordsByAllSections(userId);
+            return null;
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

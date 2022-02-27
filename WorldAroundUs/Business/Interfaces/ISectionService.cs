@@ -33,5 +33,6 @@ namespace WorldAroundUs
         List<ResponseHistoryViewModel> GetUserTestHistory(string userId, int testId);
         List<GlobalResult> GetRating();
         List<GlobalResult> GetRatingBySubsectionId(int subsectionId);
+        List<UserSectionRecordViewModel> GetUserRecordsByAllSections(string userId);
     }
 }
