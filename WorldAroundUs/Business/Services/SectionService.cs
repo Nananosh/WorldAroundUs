@@ -236,6 +236,27 @@ namespace WorldAroundUs.Services
             return userTop;
         }
         
+        public List<UserSectionRecordViewModel> GetUserRecordsByAllSections(string userId)
+        {
+            var top = db.TestResults
+                .Include(x => x.Test)
+                .Include(x => x.User)
+                .Where(x => x.UserId == userId)
+                .ToList()
+                .GroupBy(x => x.Test.Subsection.Section)
+                .Select(g =>
+                    new UserSectionRecordViewModel()
+                    {
+                        Section = g.Key,
+                        CountTestSuccess = g.Select(x => db.Tests.Where(y => y.SubsectionId == x.Id && x.UserId == userId)).Count()
+                    });
+
+            var userTop = top
+                .OrderByDescending(x => x.Points).ToList();
+
+            return userTop;
+        }
+        
         public int MaxPointsInTest(int testId)
         {
             var userAnswers =
