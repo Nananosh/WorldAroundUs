@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WorldAroundUs.BlueLife;
 using WorldAroundUs.Migrations;
 using WorldAroundUs.Models;
+using WorldAroundUs.ViewModels;
 using WorldAroundUs.ViewModels.Account;
 
 namespace WorldAroundUs.Controllers.Account
@@ -33,6 +36,22 @@ namespace WorldAroundUs.Controllers.Account
         public IActionResult Register()
         {
             return View();
+        }
+        
+        [HttpGet]
+        public IActionResult EditUserImageUrl()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public IActionResult EditUserImageUrl(UserImage model)
+        {
+            var userId = User.Claims.ElementAt(0).Value;
+            var user = _database.Users.FirstOrDefault(x => x.Id == userId);
+            user.UserImageUrl = model.UserImageUrl;
+            _database.SaveChanges();
+            return RedirectToAction("Index","Home");
         }
 
         [HttpPost]
@@ -66,6 +85,14 @@ namespace WorldAroundUs.Controllers.Account
             return View(new LoginViewModel {ReturnUrl = returnUrl});
         }
 
+        public async Task SendEmail(string userName)
+        {
+            var user = _database.Users.FirstOrDefault(x => x.UserName == userName);
+            EmailConfirm emailService = new EmailConfirm();
+            await emailService.SendEmailDefault(user.Email, "Вход на сайт",
+                $"Пользователль {user.UserName} приступил к обучению.");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -76,6 +103,7 @@ namespace WorldAroundUs.Controllers.Account
                     .PasswordSignInAsync(model.UserName, model.Password, true, false);
                 if (signInResult.Succeeded)
                 {
+                    await SendEmail(model.UserName);
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                         return Redirect(model.ReturnUrl);
 

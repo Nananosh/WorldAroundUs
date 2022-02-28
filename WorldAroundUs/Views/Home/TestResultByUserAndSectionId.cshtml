@@ -1,0 +1,23 @@
+﻿@model List<TestResult>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-6 hr h2 d-flex justify-content-center">Тест</div>
+        <div class="col-lg-6 hr h2 d-flex justify-content-center">Количество баллов</div>
+    </div>
+    @foreach (var testResult in @Model)
+    {
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-6 d-flex align-items-center justify-content-center mt-5 hm h4">
+                <a asp-action="TestInfoById" asp-route-id="@testResult.TestId" style="text-decoration: none; color: #053A32;">
+                @Html.DisplayFor(modelElem => testResult.Test.Title)
+                </a>
+            </div>
+            <div class="col-lg-6 d-flex align-items-baseline justify-content-center mt-5 hm h4">
+                @Html.DisplayFor(modelElem => testResult.Points)
+            </div>
+        </div>
+    }
+</div>
+
+

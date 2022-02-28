@@ -34,5 +34,8 @@ namespace WorldAroundUs
         List<GlobalResult> GetRating();
         List<GlobalResult> GetRatingBySubsectionId(int subsectionId);
         List<UserSectionRecordViewModel> GetUserRecordsByAllSections(string userId);
+        User GetUserById(string userId);
+        List<TestResult> GetTestResultByUserAndSectionId(int sectionId, string userId);
+        int GetTestBySubsectionId(int id);
     }
 }

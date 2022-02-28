@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WorldAroundUs.BlueLife;
 using WorldAroundUs.Migrations;
 using WorldAroundUs.Models;
 using WorldAroundUs.ViewModels;
@@ -79,6 +80,7 @@ namespace WorldAroundUs.Services
             {
                 updateSection.Title = model.Title;
                 updateSection.ImageUrl = model.ImageUrl;
+                updateSection.BackgroundImage = model.BackgroundImage;
                 db.SaveChanges();
             }
 
@@ -137,10 +139,23 @@ namespace WorldAroundUs.Services
             return mapper.Map<List<QuestionAnswerOptionViewModel>>(question);
         }
 
-        private void AddTestResult(TestResult model)
+        private async Task AddTestResult(TestResult model)
         {
-            db.TestResults.Add(model);
+            var test = model;
+            db.TestResults.Add(test);
             db.SaveChanges();
+            await SendEmail(test.Id);
+        }
+        
+        public async Task SendEmail(int testResultId)
+        {
+            var testResult = db.TestResults
+                .Include(x => x.Test)
+                .FirstOrDefault(x => x.Id == testResultId);
+            var user = db.Users.FirstOrDefault(x => x.Id == testResult.UserId);
+            EmailConfirm emailService = new EmailConfirm();
+            await emailService.SendEmailDefault(user.Email, "Прохождение теста",
+                $"Пользователль {user.UserName} прошёл тест \"{testResult.Test.Title}\" на {testResult.Points} баллов.");
         }
         
         public TestResultViewModel GetResultTestByTestIdUserId(string userId, int testId)
@@ -227,7 +242,8 @@ namespace WorldAroundUs.Services
                     new GlobalResult
                     {
                         User = g.Key,
-                        Points = g.Sum(x => x.Points)
+                        Points = g.Sum(x => x.Points),
+                        UserImage = g.Select(x => x.User.UserImageUrl).First()
                     });
 
             var userTop = top
@@ -238,28 +254,47 @@ namespace WorldAroundUs.Services
         
         public List<UserSectionRecordViewModel> GetUserRecordsByAllSections(string userId)
         {
-            var top = db.TestResults
-                .Include(x => x.Test)
-                .ThenInclude(x => x.Subsection)
+            var top = db.Tests 
+                .Include(x => x.Subsection)
                 .ThenInclude(x => x.Section)
-                .Include(x => x.User)
-                .Where(x => x.UserId == userId)
                 .ToList()
-                .GroupBy(x => x.Test.Subsection.Section)
+                .GroupBy(x => x.Subsection.Section.Id)
                 .Select(g =>
                     new UserSectionRecordViewModel()
                     {
-                        Section = g.Key,
-                        CountTest = g.Select(x => db.Tests.Where(y => y.SubsectionId == x.Test.SubsectionId)).Count(),
-                        CountTestSuccess = g.Select(x => db.Tests.Where(y => y.SubsectionId == x.Test.SubsectionId && x.UserId == userId)).Count()
+                        SectionId = g.Key,
+                        SectionName = g.Select(x => x.Subsection.Section.Title).First(),
+                        CountTest = g.Select(x => db.TestResults.Where(y => y.Test.Subsection.Id == x.Subsection.Id)).Count(),
+                        CountTestSuccess = g.Where(x => db.TestResults.Any(y => y.UserId == userId && y.Test.Subsection.Id == x.Subsection.Id && y.TestId == x.Id)).Count()
                     }).ToList();
 
-            // var userTop = top
-            //     .OrderByDescending(x => x.Points).ToList();
-
-            return null;
+            return top;
         }
-        
+
+        public User GetUserById(string userId)
+        {
+            var user = db.Users.FirstOrDefault(x => x.Id == userId);
+            return user;
+        }
+
+        public List<TestResult> GetTestResultByUserAndSectionId(int sectionId, string userId)
+        {
+            var testResults = db.TestResults
+                .Include(x => x.User)
+                .Include(x => x.Test)
+                .ThenInclude(x => x.Subsection)
+                .ThenInclude(x => x.Section)
+                .Where(x => x.UserId == userId && x.Test.Subsection.Section.Id == sectionId)
+                .ToList();
+
+            return testResults;
+        }
+
+        public int GetTestBySubsectionId(int id)
+        {
+            return db.Tests.First(x => x.SubsectionId == id).Id;
+        }
+
         public int MaxPointsInTest(int testId)
         {
             var userAnswers =

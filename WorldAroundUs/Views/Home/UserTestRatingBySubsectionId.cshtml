@@ -1,10 +1,19 @@
 ﻿@model List<WorldAroundUs.Models.GlobalResult>
-
-
-<div class="col-2 bg-secondary shadow p-3 mb-5 bg-white rounded m-1 align-self-start">
-            <form method="post" asp-action="UserTestRatingBySubsectionId">
+<div class="row" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgb(169, 218, 214) 100%), url(../../back.jpg) no-repeat center center fixed; height: 900px; width: 100%; background-size: cover; margin: 0;">
+    <div class="col-lg-12 d-flex align-items-center justify-content-center mb-5">
+        <div class="mb-5">
+            <div class="h1 d-flex justify-content-center hb" style="font-size: 55px">Рейтинг</div>
+            <br/>
+            <div class="h3 d-flex justify-content-center hr">Стремись к большим познаниям!</div>
+        </div>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="row mb-5 d-flex justify-content-center">
+        <form method="post" asp-action="UserTestRatingBySubsectionId">
+            <div class="col-lg-12 d-flex justify-content-center flex-column">
                 <div class="form-group">
-                    <label> Подтема</label>
+                    <p style="text-align: center" class="h3 hb"> Подтема</p>
                     <select size="1" name="subsectionId" class="form-control">
                         <option value="0">Не выбрано</option>
                         @foreach (var item in ViewBag.Subsections)
@@ -13,32 +22,25 @@
                         }
                     </select>
                 </div>
-                
-                <button type="submit" class="btn btn-primary">Найти</button>
-            </form>
-        </div>
-<table class="table">
-    <thead class="thead-light">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.GetEnumerator().Current.User)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.GetEnumerator().Current.Points)
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in @Model)
-    {
-        <tr>
-            <td>
+                <button type="submit" class="btn rounded shadow-sm rounded-pill hr" style="background-color: #FFC23A; font-size: 20px">Посмотреть</button>
+            </div>
+        </form>
+
+
+    </div>
+    <div class="row">
+        @{ int number = 0; }
+        @foreach (var item in @Model)
+        {
+            number += 1;
+            <div class="col-lg-4 d-flex justify-content-end align-items-center mt-5 hb" style="font-size: 40px">@number</div>
+            <div class="col-lg-4 d-flex align-items-center mt-5 hm">
+                <img src="@item.UserImage" class="rounded-circle mr-3" alt="avatar" style="height: 50px; width: 50px; object-fit:cover;"/>
                 @Html.DisplayFor(modelElem => item.User)
-            </td>
-            <td>
-                @Html.DisplayFor(modelElem => item.Points)
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center mt-5 hm">
+                @Html.DisplayFor(modelElem => item.Points) баллов
+            </div>
+        }
+    </div>
+</div>

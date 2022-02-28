@@ -1,12 +1,18 @@
 ﻿@model List<WorldAroundUs.ViewModels.SubsectionViewModel>
-<div class="row" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgb(169, 218, 214) 100%), url(../../back.jpg) no-repeat center center fixed; height: 500px; width: 100%; background-size: cover; margin: 0;">
+<div class="row" style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgb(169, 218, 214) 100%), url(@if (@Model.Count() > 0){@Model[0].Section.BackgroundImage}) no-repeat center center fixed; height: 500px; width: 100%; background-size: cover; margin: 0;">
     <div class="col-lg-12 d-flex align-items-center justify-content-center mt-5">
         <div>
-            <div class="h1 d-flex justify-content-center hb" style="font-size: 55px">@ViewBag.Theme</div>
+            <div class="h1 d-flex justify-content-center hb" style="font-size: 55px">@Model[0].Section.Title</div>
         </div>
     </div>
 </div>
 <div class="container mt-5">
+    <div class="col-lg-12 mb-3">
+        <a
+            asp-action="Index" asp-controller="Home" class="hr" style="color: #053A32; font-size: 20px; text-decoration: none;">
+            Назад
+        </a>
+    </div>
     <div class="row">
         @foreach (var item in @Model)
         {

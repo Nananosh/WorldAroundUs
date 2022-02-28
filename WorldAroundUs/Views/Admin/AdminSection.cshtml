@@ -28,7 +28,8 @@
                             fields: {
                                 Id: {from: "id", type: "number", editable: false},
                                 Title: { from: "title"},
-                                ImageUrl: { from: "imageUrl" }
+                                ImageUrl: { from: "imageUrl" },
+                                BackgroundImage: {from: "backgroundImage"}
                             }
                         }
                     },
@@ -64,6 +65,10 @@
                         field: "ImageUrl",
                         title: "Ссылка на картинку"
                     },
+                    {
+                        field: "BackgroundImage",
+                        title: "Задний фон"
+                    },                 
                     {
                         command: "edit"  
                     },

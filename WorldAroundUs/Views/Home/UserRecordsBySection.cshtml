@@ -1,2 +1,39 @@
-﻿
+﻿@model List<WorldAroundUs.ViewModels.UserSectionRecordViewModel>
 
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12 d-flex justify-content-center">
+            <img src="@ViewBag.User.UserImageUrl" width="300px" height="300px" style="object-fit: cover"/>
+        </div>
+        <div class="col-lg-12 d-flex justify-content-center mt-2 mb-5 hb h1">
+            @ViewBag.User.UserName
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 hr h2 d-flex justify-content-center">Раздел</div>
+        <div class="col-lg-6 hr h2 d-flex justify-content-center">Количество пройденных тестов</div>
+    </div>
+    @foreach (var sec in @Model)
+    {
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-6 d-flex align-items-center justify-content-center mt-5 hm h4">
+                <a asp-action="TestResultByUserAndSectionId" asp-route-sectionId="@sec.SectionId" style="text-decoration: none; color: #053A32;">
+                @Html.DisplayFor(modelElem => sec.SectionName)
+                </a>
+            </div>
+            <div class="col-lg-6 d-flex align-items-baseline justify-content-center mt-5 hm h4">
+                @Html.DisplayFor(modelElem => sec.CountTestSuccess)/@Html.DisplayFor(modelElem => sec.CountTest)
+                @if (sec.CountTest == sec.CountTestSuccess)
+                {
+                    <div class="ml-3">
+                        <a
+                            asp-action="Certificate" asp-route-sectionName="@sec.SectionName" asp-route-userName="@ViewBag.User.UserName"
+                            type="submit" class="btn rounded shadow-sm rounded-pill hr d-flex justify-content-end" style="background-color: #FFC23A; font-size: 20px">
+                            Получить сертификат
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

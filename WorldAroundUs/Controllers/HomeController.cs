@@ -27,6 +27,7 @@ namespace WorldAroundUs.Controllers
         
         public IActionResult Test(int id)
         {
+            
             var userId = User.Claims.ElementAt(0).Value;
             if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
             
@@ -44,16 +45,6 @@ namespace WorldAroundUs.Controllers
             
             ViewBag.MaxPoints = sectionService.MaxPointsInTest(testId);
             return View(userPoints);
-        }
-
-        public IActionResult UserTestRating(int id)
-        {
-            var userId = User.Claims.ElementAt(0).Value;
-            if (string.IsNullOrEmpty(userId)) RedirectToAction("Index","Home");
-            
-            var rating = sectionService.GetTestResultByTestId(id, userId);
-
-            return View(rating);
         }
 
         public IActionResult TestInfoById(int id)
@@ -130,11 +121,40 @@ namespace WorldAroundUs.Controllers
             return View();
         }
 
-        public IActionResult GetUserRecordsByAllSections()
+        public IActionResult UserRecordsBySection()
         {
             var userId = User.Claims.ElementAt(0).Value;
-            sectionService.GetUserRecordsByAllSections(userId);
-            return null;
+            ViewBag.User = sectionService.GetUserById(userId);
+            var sections = sectionService.GetUserRecordsByAllSections(userId);
+            return View(sections);
+        }
+        
+        public IActionResult Certificate(string sectionName, string userName)
+        {
+            ViewBag.SectionName = sectionName;
+            ViewBag.UserName = userName;
+            return View();
+        }
+        
+        public IActionResult TestResultByUserAndSectionId(int sectionId)
+        {
+            var userId = User.Claims.ElementAt(0).Value;
+            var results = sectionService.GetTestResultByUserAndSectionId(sectionId, userId);
+            return View(results);
+        }
+        
+        public IActionResult GetTestBySubsectionId(int subsectionId)
+        {
+            var userId = User.Claims.ElementAt(0).Value;
+            var test = sectionService.GetTestByThemeId(subsectionId);
+            if (test != null)
+            {
+                return RedirectToAction("Test", new {id = test.Id});
+            }
+            else
+            {
+                return RedirectToAction("Themes", new {id = subsectionId});
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
