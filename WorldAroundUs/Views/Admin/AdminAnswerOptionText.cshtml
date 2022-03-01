@@ -5,19 +5,19 @@
     $("#grid").kendoGrid({
                 dataSource: {
                     transport: {
-                        read: "@Url.Action("GetAllSections", "Admin")",
+                        read: "@Url.Action("GetAllAnswerOptionText", "Admin")",
                         update: {
-                                                    url: "@Url.Action("UpdateSection","Admin")",
+                                                    url: "@Url.Action("UpdateAnswerOptionText","Admin")",
                                                     dataType: "json",
                                                     type: "POST"
                                                 },
                                                 create:{
-                                                    url: "@Url.Action("CreateSection", "Admin")",
+                                                    url: "@Url.Action("CreateAnswerOptionText", "Admin")",
                                                     dataType: "json",
                                                     type: "POST"
                                                 },
                         destroy: {
-                            url: "@Url.Action("RemoveSection", "Admin")",
+                            url: "@Url.Action("RemoveAnswerOptionText", "Admin")",
                             dataType: "json",
                             type: "DELETE"
                         }
@@ -27,9 +27,8 @@
                             id: "Id",
                             fields: {
                                 Id: {from: "id", type: "number", editable: false},
-                                Title: { from: "title"},
+                                Text: { from: "text"},
                                 ImageUrl: { from: "imageUrl" },
-                                BackgroundImage: {from: "backgroundImage"}
                             }
                         }
                     },
@@ -58,17 +57,13 @@
                         filterable: false
                     },
                     {
-                        field: "Title",
-                        title: "Название"
+                        field: "Text",
+                        title: "Ответ текстом"
                     },
                     {
                         field: "ImageUrl",
                         title: "Ссылка на картинку"
-                    },
-                    {
-                        field: "BackgroundImage",
-                        title: "Задний фон"
-                    },                 
+                    },               
                     {
                         command: "edit"  
                     },

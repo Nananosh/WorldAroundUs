@@ -39,9 +39,9 @@
                         }
                     },
                     pageSize: 20,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
                 },
                 height: 550,
                 editable: {
@@ -51,7 +51,9 @@
                         resizable: false,
                     }
                 },
-                pageable: true,
+                filterable: true,
+                                sortable: true,
+                                pageable: true,
                 toolbar: [
                                     {name: "create"}
                                 ],

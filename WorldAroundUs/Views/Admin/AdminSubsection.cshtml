@@ -33,15 +33,14 @@
                                 SectionId: {from: "sectionId", type: "number",nullable: false, validation: {required: true} },
                                 Title: { from: "title", validation: {required: true} },
                                 Text: {from: "text",nullable: true, validation: {required: true} }, 
-                                ImageUrl: { from: "imageUrl", validation: {required: true} },
-                                VideoUrl: {from: "videoUrl", validation: {required: true} }
+                                ImageUrl: { from: "imageUrl", validation: {required: true} }
                             }
                         }
                     },
                     pageSize: 20,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
                 },
                 height: 550,
                 editable: {
@@ -55,8 +54,8 @@
                                     {name: "create"},
                                     {name: "excel"}
                                 ],
-                // filterable: true,
-                // sortable: true,
+                filterable: true,
+                sortable: true,
                 pageable: true,
                 columns: [
                     {

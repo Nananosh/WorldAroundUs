@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Specialized;
+using Microsoft.AspNetCore.Mvc;
 using WorldAroundUs.Business.Interfaces;
+using WorldAroundUs.Models;
 using WorldAroundUs.ViewModels;
 
 namespace WorldAroundUs.Controllers
@@ -48,12 +50,42 @@ namespace WorldAroundUs.Controllers
         }
 
         [HttpDelete]
-        public void RemoveTest(TestViewModel model)
+        public Test RemoveTest(TestViewModel model)
         {
             adminService.RemoveTest(model);
+
+            return new Test();
+        }
+
+        public JsonResult GetAllAnswerOptionText()
+        {
+            var answerOption = adminService.GetAllAnswerOptions();
+
+            return Json(answerOption);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateAnswerOptionText(AnswerOptionViewModel model)
+        {
+            var test = adminService.UpdateAnswerOptions(model);
+
+            return Json(test);
+        }
+
+        [HttpDelete]
+        public AnswerOption RemoveAnswerOptionText(AnswerOptionViewModel model)
+        {
+            adminService.RemoveAnswerOption(model);
+
+            return new AnswerOption();
         }
 
         public IActionResult AdminTheme()
+        {
+            return View();
+        }
+
+        public IActionResult AdminAnswerOptionText()
         {
             return View();
         }
@@ -62,12 +94,12 @@ namespace WorldAroundUs.Controllers
         {
             return View();
         }
-        
+
         public IActionResult AnswerQuestion()
         {
             return View();
         }
-        
+
         public IActionResult QuestionGrid()
         {
             return View();
@@ -79,14 +111,14 @@ namespace WorldAroundUs.Controllers
 
             return Json(sections);
         }
-        
+
         public JsonResult GetAllQuestions()
         {
             var questions = adminService.GetAllQuestions();
 
             return Json(questions);
         }
-        
+
         public JsonResult GetAllQuestionAnswerOptions()
         {
             var answerQuestions = adminService.GetAllQuestionAnswerOptions();
@@ -101,11 +133,19 @@ namespace WorldAroundUs.Controllers
 
             return Json(test);
         }
-        
+
         [HttpPost]
         public IActionResult CreateQuestion(QuestionViewModel model)
         {
             var question = adminService.CreateQuestion(model);
+
+            return Json(question);
+        }
+
+        [HttpPost]
+        public IActionResult CreateAnswerOptionText(AnswerOptionViewModel model)
+        {
+            var question = adminService.CreateAnswerOption(model);
 
             return Json(question);
         }
@@ -124,7 +164,7 @@ namespace WorldAroundUs.Controllers
 
             return Json(sections);
         }
-        
+
         [HttpPost]
         public JsonResult UpdateQuestionAnswerOption(QuestionAnswerOptionViewModel model)
         {
@@ -132,7 +172,7 @@ namespace WorldAroundUs.Controllers
 
             return Json(sections);
         }
-        
+
         [HttpPost]
         public JsonResult UpdateQuestion(QuestionViewModel model)
         {
@@ -172,7 +212,7 @@ namespace WorldAroundUs.Controllers
 
             return Json(subsection);
         }
-        
+
         [HttpPost]
         public JsonResult CreateQuestionAnswerOption(QuestionAnswerOptionViewModel model)
         {
@@ -190,33 +230,42 @@ namespace WorldAroundUs.Controllers
         }
 
         [HttpDelete]
-        public void RemoveSection(SectionViewModel model)
+        public Section RemoveSection(SectionViewModel model)
         {
             sectionService.RemoveSection(model);
+            return new Section();
         }
-        
+
         [HttpDelete]
-        public void RemoveQuestionAnswerOption(QuestionAnswerOptionViewModel model)
+        public QuestionAnswerOption RemoveQuestionAnswerOption(QuestionAnswerOptionViewModel model)
         {
             adminService.RemoveQuestionAnswerOption(model);
+
+            return new QuestionAnswerOption();
         }
-        
+
         [HttpDelete]
-        public void RemoveQuestion(QuestionViewModel model)
+        public Question RemoveQuestion(QuestionViewModel model)
         {
             adminService.RemoveQuestion(model);
+
+            return new Question();
         }
 
         [HttpDelete]
-        public void RemoveSubsection(SubsectionViewModel model)
+        public Subsection RemoveSubsection(SubsectionViewModel model)
         {
             sectionService.RemoveSubsection(model);
+
+            return new Subsection();
         }
 
         [HttpDelete]
-        public void RemoveTheme(ThemeViewModel model)
+        public Theme RemoveTheme(ThemeViewModel model)
         {
             sectionService.RemoveTheme(model);
+
+            return new Theme();
         }
 
         public JsonResult GetAllSubsections()
@@ -225,7 +274,7 @@ namespace WorldAroundUs.Controllers
 
             return Json(subsections);
         }
-        
+
         public JsonResult GetAllAnswerOption()
         {
             var subsections = sectionService.GetAllAnswerOption();

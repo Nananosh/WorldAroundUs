@@ -37,13 +37,19 @@ namespace WorldAroundUs.Services
 
             return mapper.Map<IEnumerable<QuestionViewModel>>(questions);
         }
-        
+
+        public IEnumerable<AnswerOptionViewModel> GetAllAnswerOptions()
+        {
+            var answerOption = db.AnswerOptions;
+
+            return mapper.Map<IEnumerable<AnswerOptionViewModel>>(answerOption);
+        }
+
         public IEnumerable<QuestionAnswerOptionViewModel> GetAllQuestionAnswerOptions()
         {
             var questionAnswerOptions = db.QuestionAnswerOptions
                 .Include(x => x.Question)
-                .Include(x => x.AnswerOption)
-                .Include(x => x.IsCorrectly);
+                .Include(x => x.AnswerOption);
 
             return mapper.Map<IEnumerable<QuestionAnswerOptionViewModel>>(questionAnswerOptions);
         }
@@ -81,7 +87,23 @@ namespace WorldAroundUs.Services
 
             return mapper.Map<QuestionViewModel>(updatedQuestion);
         }
-        
+
+        public AnswerOptionViewModel UpdateAnswerOptions(AnswerOptionViewModel model)
+        {
+            var answerOption = db.AnswerOptions.FirstOrDefault(x => x.Id == model.Id);
+
+            if (answerOption != null)
+            {
+                answerOption.Text = model.Text;
+                answerOption.ImageUrl = model.ImageUrl;
+                db.SaveChanges();
+            }
+
+            var updatedAnswerOption = db.AnswerOptions.FirstOrDefault(x => x.Id == answerOption.Id);
+
+            return mapper.Map<AnswerOptionViewModel>(updatedAnswerOption);
+        }
+
         public QuestionAnswerOptionViewModel UpdateQuestionAnswerOption(QuestionAnswerOptionViewModel model)
         {
             var questionAnswer = db.QuestionAnswerOptions
@@ -118,7 +140,17 @@ namespace WorldAroundUs.Services
                 db.SaveChanges();
             }
         }
-        
+
+        public void RemoveAnswerOption(AnswerOptionViewModel model)
+        {
+            var removeAnswerOption = db.AnswerOptions.FirstOrDefault(x => x.Id == model.Id);
+            if (removeAnswerOption != null)
+            {
+                db.AnswerOptions.Remove(removeAnswerOption);
+                db.SaveChanges();
+            }
+        }
+
         public void RemoveQuestion(QuestionViewModel model)
         {
             var removeQuestion = db.Questions
@@ -161,7 +193,19 @@ namespace WorldAroundUs.Services
 
             return mapper.Map<TestViewModel>(addedTest);
         }
-        
+
+        public AnswerOptionViewModel CreateAnswerOption(AnswerOptionViewModel modal)
+        {
+            var modalAnswerOption = mapper.Map<AnswerOption>(modal);
+            if (modalAnswerOption != null)
+            {
+                db.AnswerOptions.Add(modalAnswerOption);
+                db.SaveChanges();
+            }
+
+            return mapper.Map<AnswerOptionViewModel>(modalAnswerOption);
+        }
+
         public QuestionViewModel CreateQuestion(QuestionViewModel model)
         {
             var modelQuestion = mapper.Map<Question>(model);

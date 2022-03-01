@@ -32,7 +32,7 @@
                             id: "Id",
                             fields: {
                                 Id: { editable: false, from: "id", type: "number" },
-                                IsCorrectly: { from: "isCorrectly", type: "boolean" ,validation: {required: true} }, 
+                                IsCorrectly: { from: "isCorrectly", type: "boolean" }, 
                                 Question: { from: "question",nullable: true, validation: {required: true} },
                                 QuestionId: {from: "questionId",nullable: true, validation: {required: true} },
                                 AnswerOption: { from: "answerOption",nullable: true, validation: {required: true} },
@@ -41,9 +41,9 @@
                         }
                     },
                     pageSize: 20,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
                 },
                 height: 550,
                 editable: {
@@ -53,6 +53,8 @@
                         resizable: false,
                     }
                 },
+                filterable: true,
+                                sortable: true,
                 pageable: true,
                 toolbar: [
                     {name: "create"}
@@ -81,7 +83,7 @@
                                                 if (dataItem.AnswerOption == null)
                                                     return '';
                                                 else
-                                                    return dataItem.AnswerOption.text;
+                                                    return dataItem.AnswerOption.id;
                                             }
                                         },
                                         {
@@ -122,10 +124,16 @@
                     $('<input required name="AnswerOptionId">')
                         .appendTo(container)
                         .kendoDropDownList({
-                            dataTextField: "text",
+                            optionLabel: "Выберите ответ",
+                            dataTextField: "id",
                             dataValueField: "id",
                             height: 500,
                             valuePrimitive: true,
+                            template: `# if (data.text == null) { # ` +
+                                       `    <img src="#: data.imageUrl #" width="150px" height="150px" style="object-fit: cover" class="d-flex justify-content-center"/>` +
+                                      ` # } else { # `+
+                                       `    <span class="k-state-default"><h3>#: data.text #</h3></span>`+
+                                      ` # } #`,
                             dataSource: {
                                 transport: {
                                     read: {

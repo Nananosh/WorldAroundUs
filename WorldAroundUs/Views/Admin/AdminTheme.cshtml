@@ -23,7 +23,6 @@
                             type: "DELETE"
                         }
                     },
-                    
                     schema: {
                         model: {
                             id: "Id",
@@ -39,9 +38,9 @@
                         }
                     },
                     pageSize: 20,
-                    serverPaging: true,
-                    serverFiltering: true,
-                    serverSorting: true
+                    serverPaging: false,
+                    serverFiltering: false,
+                    serverSorting: false
                 },
                 height: 550,
                 editable: {
@@ -59,8 +58,8 @@
                         name: "excel"
                     }
                ],
-                // filterable: true,
-                // sortable: true,
+                filterable: true,
+                sortable: true,
                 pageable: true,
                 columns: [
                     {
