@@ -324,8 +324,7 @@ namespace WorldAroundUs.Services
                 db.SaveChanges();
             }
 
-            var updatedTheme = db.Subsections
-                .Include(x => x.Section).FirstOrDefault(x => x.Id == updateTheme.Id);
+            var updatedTheme = db.Themes.FirstOrDefault(x => x.Id == updateTheme.Id);
 
             return mapper.Map<ThemeViewModel>(updatedTheme);
         }
